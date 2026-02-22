@@ -4,7 +4,7 @@ import {
     getVideoById,
     getAllVideosOfUser,
     deleteVideo,
-} from "./videoApi";
+} from "./videoApi.js";
 
 const initialState = {
     videos: {
