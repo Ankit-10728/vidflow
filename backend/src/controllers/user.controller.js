@@ -162,7 +162,7 @@ const logoutUser = asyncHandler(async (req, res) => {
         .status(200)
         .clearCookie("accessToken", options)
         .clearCookie("refreshToken", options)
-        .json(new ApiResponse(200, {}, "User logged out"));
+        .json(new ApiResponse(200, { userId: req.user._id }, "User logged out"));
 
 })
 
@@ -200,7 +200,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
 
     const user = await User.findById(req.user._id);
 
-    await User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
         req.user._id,
         {
             $set: {
@@ -221,7 +221,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 200,
-                {},
+                updatedUser,
                 "Avatar updated Successfully"
             )
         )
@@ -257,7 +257,7 @@ const updateCoverImage = asyncHandler(async (req, res) => {
     return res
         .status(200)
         .json(
-            new ApiResponse(200, {}, "CoverImage updated successfully")
+            new ApiResponse(200, afterDeletion, "CoverImage updated successfully")
         )
 })
 
@@ -301,7 +301,7 @@ const changePassword = asyncHandler(async (req, res) => {
     return res
         .status(200)
         .json(
-            new ApiResponse(200, {}, "Password changed successfully")
+            new ApiResponse(200, user, "Password changed successfully")
         )
 })
 
