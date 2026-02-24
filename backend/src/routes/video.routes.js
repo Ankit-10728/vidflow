@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { addToPlaylist } from "../controllers/playlist.controller.js";
 import {
     uploadVideo,
     deleteVideo,

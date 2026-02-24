@@ -25,37 +25,37 @@ const createPlaylist = asyncHandler(async (req, res) => {
         )
 })
 
-const addToPlaylist = asyncHandler(async (req, res) => {
-    const { playlistId } = req.params
-    const playlist = await Playlist.findOne({
-        _id: playlistId,
-        owner: req.user._id
-    });
-    if (!playlist) {
-        throw new ApiError(400, "playlist does not exist :: addToPlaylist")
-    }
+// const addToPlaylist = asyncHandler(async (req, res) => {
+//     const { playlistId } = req.params
+//     const playlist = await Playlist.findOne({
+//         _id: playlistId,
+//         owner: req.user._id
+//     });
+//     if (!playlist) {
+//         throw new ApiError(400, "playlist does not exist :: addToPlaylist")
+//     }
 
-    const { videoId } = req.params
+//     const { videoId } = req.params
 
-    if (!videoId) throw new ApiError(400, "Video id is required");
+//     if (!videoId) throw new ApiError(400, "Video id is required");
 
-    const updatedPlaylist = await Playlist.findByIdAndUpdate(
-        playlist._id,
-        {
-            $addToSet: { videos: videoId }
-        },
-        {
-            new: true
-        }
-    )
+//     const updatedPlaylist = await Playlist.findByIdAndUpdate(
+//         playlist._id,
+//         {
+//             $addToSet: { videos: videoId }
+//         },
+//         {
+//             new: true
+//         }
+//     )
 
-    if (!updatedPlaylist) throw new ApiError(400, "Playlist not found")
-    return res
-        .status(200)
-        .json(
-            new ApiResponse(200, updatedPlaylist, "video added successfully")
-        )
-})
+//     if (!updatedPlaylist) throw new ApiError(400, "Playlist not found")
+//     return res
+//         .status(200)
+//         .json(
+//             new ApiResponse(200, updatedPlaylist, "video added successfully")
+//         )
+// })
 
 const removeFromPlaylist = asyncHandler(async (req, res) => {
     const { videoId, playlistId } = req.params
@@ -128,7 +128,6 @@ const getPlaylistById = asyncHandler(async (req, res) => {
 
 export {
     createPlaylist,
-    addToPlaylist,
     removeFromPlaylist,
     deletePlaylist,
     getUserPlaylists,

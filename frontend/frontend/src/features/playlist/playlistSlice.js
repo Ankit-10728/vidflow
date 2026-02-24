@@ -1,7 +1,6 @@
 import {
     deletePlaylist,
     createPlaylist,
-    addToPlaylist,
     removeFromPlaylist,
     getPlaylistById
 } from "./playlistApi.js"
@@ -42,7 +41,13 @@ const playlistSlice = createSlice({
             .addCase(removeFromPlaylist.fulfilled, (state, action) => {
                 state.loading = false;
                 const playlistId = action.payload.data._id;
-                state.playlists.myPlaylist = state.playlists.myPlaylist.map((p) => p._id == playlistId ? action.payload?.data : p);
+                state.playlists.myPlaylist = state.playlists.myPlaylist.map((p) => p._id === playlistId ? action.payload?.data : p);
+            })
+
+            .addCase(addToPlaylist.fulfilled, (state, action) => {
+                state.loading = false;
+                const playlistId = action.payload.data._id;
+
             })
 
             .addCase(getPlaylistById.fulfilled, (state, action) => {
@@ -58,7 +63,7 @@ const playlistSlice = createSlice({
             .addCase(deletePlaylist.fulfilled, (state, action) => {
                 state.loading = false;
 
-                const { plalistId } = action.payload.data;
+                const { playlistId } = action.payload.data;
                 state.playlists.myPlaylist = state.playlists.myPlaylist.filter((p) => p._id !== plalistId);
             })
 
