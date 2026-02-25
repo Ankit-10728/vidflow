@@ -44,11 +44,11 @@ const playlistSlice = createSlice({
                 state.playlists.myPlaylist = state.playlists.myPlaylist.map((p) => p._id === playlistId ? action.payload?.data : p);
             })
 
-            .addCase(addToPlaylist.fulfilled, (state, action) => {
-                state.loading = false;
-                const playlistId = action.payload.data._id;
+            // .addCase(addToPlaylist.fulfilled, (state, action) => {
+            //     state.loading = false;
+            //     const playlistId = action.payload.data._id;
 
-            })
+            // })
 
             .addCase(getPlaylistById.fulfilled, (state, action) => {
                 state.loading = false;
@@ -64,7 +64,7 @@ const playlistSlice = createSlice({
                 state.loading = false;
 
                 const { playlistId } = action.payload.data;
-                state.playlists.myPlaylist = state.playlists.myPlaylist.filter((p) => p._id !== plalistId);
+                state.playlists.myPlaylist = state.playlists.myPlaylist.filter((p) => p._id !== playlistId);
             })
 
             .addMatcher(isPending(thunks), (state) => {
