@@ -28,15 +28,12 @@ const dashboardSlice = createSlice({
         builder
             .addCase(getChannelStats.fulfilled, (state, action) => {
                 state.loading = false;
-                if (action.payload?.data) {
-                    state.playlists.myPlaylist.unshift(action.payload.data);
-                }
+                state.stats = action.payload?.data;
             })
 
-            .addCase(removeFromPlaylist.fulfilled, (state, action) => {
+            .addCase(getChannelVideos.fulfilled, (state, action) => {
                 state.loading = false;
-                const playlistId = action.payload.data._id;
-                state.playlists.myPlaylist = state.playlists.myPlaylist.map((p) => p._id === playlistId ? action.payload?.data : p);
+                state.videos = action.payload?.data
             })
 
             .addMatcher(isPending(thunks), (state) => {
