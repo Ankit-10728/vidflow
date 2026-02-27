@@ -2,6 +2,8 @@ import {
     getHealthStatus
 } from "./healthApi";
 
+import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = {
     health: {},
     loading: false,

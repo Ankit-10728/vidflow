@@ -54,6 +54,8 @@ const registerUser = asyncHandler(async (req, res) => {
         $or: [{ email }, { username }]
     })
 
+    console.log("before uploading to cloudinary");
+
     const avatarLocalPath = req.files?.avatar[0]?.path
     const coverImageLocalPath = req.files?.coverImage[0]?.path
     if (!avatarLocalPath) throw new ApiError(400, "avatar is required...")
@@ -71,10 +73,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
     const coverImage = await uploadOnCloudinary(coverImageLocalPath, "coverImage")
     if (!coverImage) console.log("not uploaded");
-
+    console.log("After upload to cloudinary")
     const user = await User.create({
         email,
-        username: username.toLowerCase(),
+        username: username?.toLowerCase(),
         fullname,
         avatar: {
             url: avatar.secure_url,
@@ -87,9 +89,13 @@ const registerUser = asyncHandler(async (req, res) => {
         password,
     })
 
+    console.log("user" + user)
+
     const createdUser = await User.findById(user._id).select(
         "-password -refreshToken"
     )
+
+    console.log("created user   " + createdUser)
 
     if (!createdUser) throw new ApiError(500, "Something went wrong while registering...")
 
@@ -111,7 +117,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const { username, password } = req.body;
 
     if (
-        [username, password].some((field) => field.trim() === "")
+        [username, password].some((field) => field?.trim() === "")
     ) {
         throw new ApiError(400, "Username or Password is incorrect");
     }

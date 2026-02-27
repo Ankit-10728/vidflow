@@ -15,7 +15,7 @@ const initialState = {
     error: null
 }
 
-const thunks = [deletePlaylist, createPlaylist, addToPlaylist, removeFromPlaylist, getPlaylistById]
+const thunks = [deletePlaylist, createPlaylist, removeFromPlaylist, getPlaylistById]
 
 const isPending = (thunks) => (action) =>
     thunks.some((thunk) => action.type === thunk.pending.type);
