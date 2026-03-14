@@ -7,7 +7,7 @@ import playlistReducer from '../features/playlist/playlistSlice.js'
 import tweetReducer from '../features/tweet/tweetSlice.js'
 import userReducer from '../features/user/userSice.js'
 import videoReducer from '../features/video/videoSlice.js'
-
+import navReducer from "../features/nav/navSlice.js"
 export const store = configureStore({
     reducer: {
         user: userReducer,
@@ -18,5 +18,6 @@ export const store = configureStore({
         health: healthReducer,
         dashboard: dashboardReducer,
         comment: commentReducer,
+        nav: navReducer
     },
 })

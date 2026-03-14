@@ -15,7 +15,7 @@ import {
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    user: null,
+    status: false,
     channelProfile: null,
     playlists: [],
     watchHistory: [],
@@ -68,6 +68,13 @@ const userSlice = createSlice({
                 state.loading.auth = false;
                 state.user = action.payload;
                 state.isAuthenticated = true;
+                state.status = true;
+            })
+            .addCase(registerUser.fulfilled, (state, action) => {
+                state.loading.auth = false;
+                state.user = action.payload;
+                state.isAuthenticated = false;
+                state.status = false;
             })
 
             .addCase(logoutUser.fulfilled, (state) => {
@@ -76,6 +83,7 @@ const userSlice = createSlice({
                 state.isAuthenticated = false;
                 state.playlists = [];
                 state.watchHistory = [];
+                state.status = false;
             })
 
             .addCase(refreshAccessToken.fulfilled, (state) => {
@@ -150,7 +158,8 @@ const userSlice = createSlice({
 
             .addMatcher(isRejected(authThunks), (state, action) => {
                 state.loading.auth = false;
-                state.error.auth = action.payload;
+                console.log(action.payload)
+                state.error.auth = action?.payload?.error;
             })
 
             .addMatcher(isRejected(profileThunks), (state, action) => {

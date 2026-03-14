@@ -1,12 +1,19 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
+import { Header, Footer, Sidebar } from "./components";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-    </Routes>
+    <>
+      <Sidebar />
+      <div className="ml-64">
+        <Header />
+        <main >
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
+
+    </>
   );
 }
 
