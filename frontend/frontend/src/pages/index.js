@@ -6,6 +6,7 @@ import Editpost from "./Editpage";
 import Post from "./Postpage";
 import AllPost from "./Allpost";
 import Addtweet from "./AddtweetPage";
+import TweetPage from "./TweetPage";
 export {
     Login,
     Signup,
@@ -14,5 +15,6 @@ export {
     Editpost,
     Post,
     AllPost,
-    Addtweet
+    Addtweet,
+    TweetPage
 }

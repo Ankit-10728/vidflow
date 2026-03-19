@@ -17,6 +17,26 @@ export const createTweet = createAsyncThunk(
     }
 );
 
+export const getTweet = createAsyncThunk(
+    "tweet/getTweet",
+    async (tweetId, thunkApi) => {
+        try {
+
+            console.log("api reached ---------------------")
+            const res = await api.get(`/tweet/${tweetId}`, {
+                withCredentials: true,
+            });
+
+            console.log(res)
+            return res.data;
+        } catch (error) {
+            return thunkApi.rejectWithValue(
+                error.response?.data || { message: error.message }
+            );
+        }
+    }
+);
+
 
 export const deleteTweet = createAsyncThunk(
     "tweet/deleteTweet",

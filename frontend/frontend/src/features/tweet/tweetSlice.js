@@ -3,6 +3,7 @@ import {
     getUserTweets,
     updateTweet,
     deleteTweet,
+    getTweet,
     createTweet
 } from "./tweetApi";
 
@@ -10,26 +11,27 @@ const initialState = {
     tweets: {
         myTweets: [],
         userTweets: [],
+        curTweet: null
     },
 
     loading: {
         create: false,
         update: false,
-        getUserTweets: false,
+        tweets: false,
         delete: false,
     },
 
     error: {
         create: null,
         update: null,
-        getUserTweets: null,
         delete: null,
+        tweets: null
     },
 };
 
 const uploadThunks = [createTweet];
 const updateThunks = [updateTweet];
-const fetchUserTweetsThunks = [getUserTweets];
+const fetchUserTweetsThunks = [getUserTweets, getTweet];
 const deleteThunks = [deleteTweet];
 
 const isPending = (thunks) => (action) =>
@@ -63,6 +65,12 @@ const tweetSlice = createSlice({
                 state.tweets.userTweets = action.payload?.data;
             })
 
+            .addCase(getTweet.fulfilled, (state, action) => {
+                state.loading.tweets = false;
+                console.log("from slice")
+                state.tweets.curTweet = action.payload?.data;
+            })
+
             .addCase(deleteTweet.fulfilled, (state, action) => {
                 state.loading.delete = false;
 
@@ -81,8 +89,8 @@ const tweetSlice = createSlice({
             })
 
             .addMatcher(isPending(fetchUserTweetsThunks), (state) => {
-                state.loading.getUserTweets = true;
-                state.error.getUserTweets = null;
+                state.loading.tweets = true;
+                state.error.tweets = null;
             })
 
             .addMatcher(isPending(deleteThunks), (state) => {
@@ -101,8 +109,8 @@ const tweetSlice = createSlice({
             })
 
             .addMatcher(isRejected(fetchUserTweetsThunks), (state, action) => {
-                state.loading.getUserTweets = false;
-                state.error.getUserTweets = action.payload;
+                state.loading.tweets = false;
+                state.error.tweets = action.payload;
             })
 
             .addMatcher(isRejected(deleteThunks), (state, action) => {

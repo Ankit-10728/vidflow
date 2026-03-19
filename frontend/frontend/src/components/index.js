@@ -10,6 +10,12 @@ import Input from "./Input";
 import FileInput from "./FileInput";
 import Home from "./home/Home";
 import Sidebar from "./SideBar";
+import AddTweet from "./AddTweet";
+import Tweet from "./TweetCompo/Tweet";
+// import TweetCard from "./TweetCompo/tweetCard/TweetCard";
+import TweetActions from "./TweetCompo/tweetCard/TweetActions";
+import TweetContent from "./TweetCompo/tweetCard/TweetContent";
+import TweetHeader from "./TweetCompo/tweetCard/TweetHeader";
 
 export {
     Container,
@@ -23,5 +29,12 @@ export {
     Input,
     FileInput,
     Home,
-    Sidebar
+    Sidebar,
+    AddTweet,
+    Tweet,
+    // TweetCard,
+    TweetContent,
+    TweetHeader,
+    TweetActions,
+
 }

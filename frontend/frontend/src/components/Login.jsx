@@ -24,6 +24,7 @@ export default function Login() {
 
     }
 
+
     return (
         <div className="flex justify-between h-screen bg-[#F8F8F8] font-poppins text-black">
             <div className="grid grid-cols-3">
@@ -35,43 +36,52 @@ export default function Login() {
                                 Welcome back! Please enter your details.
                             </h1>
                         </div>
-                        <div>
-                            <div className="my-3 flex  w-full flex-col text-[14px]">
-                                <label htmlFor="email" className="text-left text-[#181818] ">
-                                    Username :
-                                </label>
-                                <input
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    id="username"
-                                    placeholder="Enter your username"
-                                    type="text"
-                                    className="  rounded-xl border  border-[#C4C4C4] p-2 text-[#636364]"
-                                />
-                            </div>
-                            <div className="my-3 flex   flex-col text-[14px]">
-                                <label htmlFor="password" className="text-left text-[#181818] ">
-                                    Password
-                                </label>
-                                <input
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    id="password"
-                                    placeholder="Enter your password"
-                                    type="password"
-                                    className=" rounded-xl border   border-[#C4C4C4] p-2 text-[#636364]"
-                                />
-                            </div>
-                            <div className="grid grid-cols-2  ">
 
+                        <form onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSubmit();
+                        }
+                        }>
+                            <div>
+                                <div className="my-3 flex  w-full flex-col text-[14px]">
+                                    <label htmlFor="email" className="text-left text-[#181818] ">
+                                        Username :
+                                    </label>
+                                    <input
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        id="username"
+                                        placeholder="Enter your username"
+                                        type="text"
+                                        className="  rounded-xl border  border-[#C4C4C4] p-2 text-[#636364]"
+                                    />
+                                </div>
+                                <div className="my-3 flex   flex-col text-[14px]">
+                                    <label htmlFor="password" className="text-left text-[#181818] ">
+                                        Password
+                                    </label>
+                                    <input
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        id="password"
+                                        placeholder="Enter your password"
+                                        type="password"
+                                        className=" rounded-xl border   border-[#C4C4C4] p-2 text-[#636364]"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-2  ">
+
+                                </div>
                             </div>
-                        </div>
-                        <div className="text-sm flex justify-center text-blue-500 p-0.5">
-                            <Link to="/signup">don't have an account?</Link>
-                        </div>
-                        <button
-                            onClick={handleSubmit}
-                            className="my-5 w-full rounded-xl bg-[#EA454C] py-2 text-white" >
-                            Sign in
-                        </button>
+                            <div className="text-sm flex justify-center text-blue-500 p-0.5">
+                                <Link to="/signup">don't have an account?</Link>
+                            </div>
+                            <button
+                                type="submit"
+                                // onClick={handleSubmit}
+                                className="my-5 w-full rounded-xl bg-[#EA454C] py-2 text-white" >
+                                Sign in
+                            </button>
+
+                        </form>
                     </div>
 
                 </div>

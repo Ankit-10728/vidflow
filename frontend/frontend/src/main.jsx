@@ -5,7 +5,8 @@ import App from './App.jsx'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css';
-import { Protected } from "./components"
+import { Protected, Tweet } from "./components"
+import TweetLayout from './layouts/tweetLayout.jsx'
 
 import {
   Login,
@@ -15,7 +16,8 @@ import {
   Addpost,
   Home,
   Signup,
-  Addtweet
+  Addtweet,
+  TweetPage
 } from "./pages"
 
 const router = createBrowserRouter([
@@ -55,20 +57,36 @@ const router = createBrowserRouter([
         ),
         children: []
       },
+
+      {
+        path: "tweet",
+        element: <TweetLayout />,
+        children: [
+          {
+            path: 'add-tweet',
+            element: (
+              <Protected authentication={true}>
+                <Addtweet />
+              </Protected>
+            ),
+            children: []
+          },
+          {
+            path: ":tweetId",
+            element: (
+              <Protected authentication>
+                <Tweet />
+              </Protected>
+            ),
+            children: []
+          }
+        ]
+      },
       {
         path: '/add-post',
         element: (
           <Protected authentication={true}>
             <Addpost />
-          </Protected>
-        ),
-        children: []
-      },
-      {
-        path: '/add-tweet',
-        element: (
-          <Protected authentication={true}>
-            <Addtweet />
           </Protected>
         ),
         children: []

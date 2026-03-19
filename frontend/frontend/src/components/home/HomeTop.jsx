@@ -3,7 +3,9 @@ import { store } from "../../app/store"
 import { useSelector } from "react-redux"
 
 function HomeTop() {
-    const userStatus = useSelector((state) => state.user.status)
+    const { isAuthenticated, isAuthChecked } = useSelector((state) => state.user);
+    if (!isAuthChecked) return null;
+
     return (
         <section className="relative  bg-[#181523] overflow-hidden">
 
@@ -54,22 +56,22 @@ function HomeTop() {
 
 
                     <div className=" mt-10 flex flex-col sm:flex-row gap-15 justify-center lg:justify-start">
-                        <Link to={userStatus == true ? "/add-post" : "/login"}>
+                        <Link to={isAuthenticated ? "/add-post" : "/login"}>
                             <button className=" uppercase font-semibold rounded-full 
                             py-3 px-15 text-white
                             bg-linear-to-r from-red-500 to-rose-500
                             hover:scale-105 transition-all duration-100">
-                                {userStatus == true ? "Add Post" : "Login"}
+                                {isAuthenticated ? "Add Post" : "Login"}
                             </button>
                         </Link>
 
-                        <Link to={userStatus == true ? "/add-tweet" : "/signup"}>
+                        <Link to={isAuthenticated ? "/tweet/add-tweet" : "/signup"}>
                             <button className="uppercase w-full h-full font-semibold rounded-full 
                              px-15 text-white
                             border border-red-500
                             hover:bg-red-500 hover:text-white
                             transition-all duration-300">
-                                {userStatus == true ? "Add Tweet" : "Sign Up"}
+                                {isAuthenticated ? "Add Tweet" : "Sign Up"}
                             </button>
                         </Link>
 

@@ -15,7 +15,6 @@ import {
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    status: false,
     channelProfile: null,
     playlists: [],
     watchHistory: [],
@@ -34,6 +33,7 @@ const initialState = {
         channel: null
     },
     isAuthenticated: false,
+    isAuthChecked: false,
 };
 
 const authThunks = [loginUser, registerUser, logoutUser, refreshAccessToken];
@@ -66,15 +66,13 @@ const userSlice = createSlice({
         builder
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading.auth = false;
-                state.user = action.payload;
+                state.user = action.payload.data;
                 state.isAuthenticated = true;
-                state.status = true;
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.loading.auth = false;
-                state.user = action.payload;
+                state.user = action.payload.data;
                 state.isAuthenticated = false;
-                state.status = false;
             })
 
             .addCase(logoutUser.fulfilled, (state) => {
@@ -83,33 +81,42 @@ const userSlice = createSlice({
                 state.isAuthenticated = false;
                 state.playlists = [];
                 state.watchHistory = [];
-                state.status = false;
             })
 
             .addCase(refreshAccessToken.fulfilled, (state) => {
                 state.loading.auth = false;
                 state.isAuthenticated = true;
+                state.isAuthChecked = true;
             })
 
             .addCase(fetchCurrentUser.fulfilled, (state, action) => {
                 state.loading.profile = false;
-                state.user = action.payload;
+                state.user = action.payload.data;
+                state.isAuthChecked = true;
                 state.isAuthenticated = true;
+
+            })
+
+            .addCase(fetchCurrentUser.rejected, (state) => {
+                state.loading.profile = false;
+                state.user = null;
+                state.isAuthenticated = false;
+                state.isAuthChecked = true;
             })
 
             .addCase(updateAccountDetails.fulfilled, (state, action) => {
                 state.loading.profile = false;
-                state.user = action.payload;
+                state.user = action.payload.data;
             })
 
             .addCase(updateUserAvatar.fulfilled, (state, action) => {
                 state.loading.profile = false;
-                state.user.avatar = action.payload.avatar;
+                state.user.avatar = action.payload.data.avatar;
             })
 
             .addCase(updateCoverImage.fulfilled, (state, action) => {
                 state.loading.profile = false;
-                state.user.coverImage = action.payload;
+                state.user.coverImage = action.payload.data;
             })
 
             .addCase(changePassword.fulfilled, (state) => {
@@ -118,17 +125,17 @@ const userSlice = createSlice({
 
             .addCase(getUserChannelProfile.fulfilled, (state, action) => {
                 state.loading.channel = false;
-                state.channelProfile = action.payload;
+                state.channelProfile = action.payload.data;
             })
 
             .addCase(getUserPlaylists.fulfilled, (state, action) => {
                 state.loading.playlists = false;
-                state.playlists = action.payload.data;
+                state.playlists = action.payload.data.data;
             })
 
             .addCase(getWatchHistory.fulfilled, (state, action) => {
                 state.loading.history = false;
-                state.watchHistory = action.payload.data;
+                state.watchHistory = action.payload.data.data;
             })
 
             .addMatcher(isPending(authThunks), (state) => {
@@ -158,28 +165,28 @@ const userSlice = createSlice({
 
             .addMatcher(isRejected(authThunks), (state, action) => {
                 state.loading.auth = false;
-                console.log(action.payload)
+                console.log(action.payload.data)
                 state.error.auth = action?.payload?.error;
             })
 
             .addMatcher(isRejected(profileThunks), (state, action) => {
                 state.loading.profile = false;
-                state.error.profile = action.payload;
+                state.error.profile = action.payload.data;
             })
 
             .addMatcher(isRejected(playlistThunks), (state, action) => {
                 state.loading.playlists = false;
-                state.error.playlists = action.payload;
+                state.error.playlists = action.payload.data;
             })
 
             .addMatcher(isRejected(historyThunks), (state, action) => {
                 state.loading.history = false;
-                state.error.history = action.payload;
+                state.error.history = action.payload.data;
             })
 
             .addMatcher(isRejected(channelThunks), (state, action) => {
                 state.loading.channel = false;
-                state.error.channel = action.payload;
+                state.error.channel = action.payload.data;
             });
     }
 

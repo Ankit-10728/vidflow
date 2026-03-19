@@ -1,7 +1,9 @@
+import { AddTweet } from "../components"
+
 function Addtweet() {
     return (
         <>
-            <div>Add tweet Page</div>
+            <AddTweet />
         </>
     )
 }

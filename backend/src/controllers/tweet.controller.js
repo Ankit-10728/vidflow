@@ -2,6 +2,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { Tweet } from "../models/tweet.models.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { User } from "../models/user.models.js";
+import getUserChannelProfileService from "../services/getUserInfoService.js"
 
 const createTweet = asyncHandler(async (req, res) => {
     if (!req.body) throw new ApiError(400, "request body is undefined")
@@ -18,6 +20,28 @@ const createTweet = asyncHandler(async (req, res) => {
         .status(200)
         .json(
             new ApiResponse(200, tweet, "tweet created successfully")
+        )
+})
+
+const getTweet = asyncHandler(async (req, res) => {
+
+    console.log("get tqweet from backend")
+    const { tweetId } = req.params
+    if (!tweetId) throw new ApiError(400, "Select a tweet to delete");
+    const tweet = await Tweet.findById(tweetId);
+    if (!tweet) throw new ApiError(400, "Tweet not found")
+    const tweetOwner = await getUserChannelProfileService(tweet.owner);
+    if (!tweetOwner) throw new ApiError(400, "User associated with the user does not exist!!");
+
+    console.log("tweetowner" + tweetOwner)
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, {
+                tweetId,
+                tweet,
+                owner: tweetOwner
+            }, "Tweet fetched successfully")
         )
 })
 
@@ -82,6 +106,7 @@ const getUserTweets = asyncHandler(async (req, res) => {
 
 export {
     createTweet,
+    getTweet,
     deleteTweet,
     updateTweet,
     getUserTweets
