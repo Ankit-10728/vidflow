@@ -23,8 +23,7 @@ const commentSchema = new Schema({
 }, { timestamps: true })
 
 commentSchema.index(
-    { targetId: 1, targetType: 1, owner: 1 },
-    { unique: true }
+    { targetId: 1, targetType: 1 },
 );
 
 export const Comment = mongoose.model("Comment", commentSchema);

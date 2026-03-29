@@ -54,10 +54,10 @@ const unlike = (targetType) =>
     });
 
 const getLikedItems = (targetType) => asyncHandler(async (req, res) => {
-    const ownerId = req.user._id;
+    const { id } = req?.params;
 
     const likedItems = await Like.find({
-        likedBy: ownerId,
+        targetId: id,
         targetType
     })
         .populate("targetId", "title content thumbnail owner")

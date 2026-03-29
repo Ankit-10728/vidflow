@@ -78,9 +78,9 @@ export const unlikeTweet = createAsyncThunk(
 
 export const getLikedVideos = createAsyncThunk(
     "like/getLikedVideos",
-    async (_, thunkApi) => {
+    async (id, thunkApi) => {
         try {
-            const res = await api.get("/like/videos", {
+            const res = await api.get(`/like/videos/:${id}`, {
                 withCredentials: true,
             });
             return res.data;
@@ -94,9 +94,9 @@ export const getLikedVideos = createAsyncThunk(
 
 export const getLikedTweets = createAsyncThunk(
     "like/getLikedTweets",
-    async (_, thunkApi) => {
+    async (id, thunkApi) => {
         try {
-            const res = await api.get("/like/tweets", {
+            const res = await api.get(`/like/tweets/:${id}`, {
                 withCredentials: true,
             });
             return res.data;

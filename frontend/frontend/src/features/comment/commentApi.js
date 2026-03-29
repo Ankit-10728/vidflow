@@ -6,11 +6,16 @@ export const createVideoComment = createAsyncThunk(
     "comment/createVideoComment",
     async ({ videoId, content }, thunkApi) => {
         try {
+            console.log("reached");
+
             const res = await api.post(
-                `/comments/videos/${videoId}`,
+                `/comment/videos/${videoId}`,
                 { content },
                 { withCredentials: true }
             );
+
+            console.log(res);
+
             return res.data;
         } catch (error) {
             return thunkApi.rejectWithValue(
@@ -25,7 +30,7 @@ export const createTweetComment = createAsyncThunk(
     async ({ tweetId, content }, thunkApi) => {
         try {
             const res = await api.post(
-                `/comments/tweets/${tweetId}`,
+                `/comment/tweets/${tweetId}`,
                 { content },
                 { withCredentials: true }
             );
@@ -43,7 +48,7 @@ export const getVideoComments = createAsyncThunk(
     "comment/getVideoComments",
     async (videoId, thunkApi) => {
         try {
-            const res = await api.get(`/comments/videos/${videoId}`, {
+            const res = await api.get(`/comment/videos/${videoId}`, {
                 withCredentials: true
             });
             return res.data;
@@ -59,7 +64,7 @@ export const getTweetComments = createAsyncThunk(
     "comment/getTweetComments",
     async (tweetId, thunkApi) => {
         try {
-            const res = await api.get(`/comments/tweets/${tweetId}`, {
+            const res = await api.get(`/comment/tweets/${tweetId}`, {
                 withCredentials: true
             });
             return res.data;
@@ -77,7 +82,7 @@ export const updateVideoComment = createAsyncThunk(
     async ({ videoId, content }, thunkApi) => {
         try {
             const res = await api.patch(
-                `/comments/videos/${videoId}`,
+                `/comment/videos/${videoId}`,
                 { content },
                 { withCredentials: true }
             );
@@ -95,7 +100,7 @@ export const updateTweetComment = createAsyncThunk(
     async ({ tweetId, content }, thunkApi) => {
         try {
             const res = await api.patch(
-                `/comments/tweets/${tweetId}`,
+                `/comment/tweets/${tweetId}`,
                 { content },
                 { withCredentials: true }
             );
@@ -114,7 +119,7 @@ export const deleteVideoComment = createAsyncThunk(
     async (videoId, thunkApi) => {
         try {
             const res = await api.delete(
-                `/comments/videos/${videoId}`,
+                `/comment/videos/${videoId}`,
                 { withCredentials: true }
             );
             return { videoId, data: res.data };
@@ -131,7 +136,7 @@ export const deleteTweetComment = createAsyncThunk(
     async (tweetId, thunkApi) => {
         try {
             const res = await api.delete(
-                `/comments/tweets/${tweetId}`,
+                `/comment/tweets/${tweetId}`,
                 { withCredentials: true }
             );
             return { tweetId, data: res.data };

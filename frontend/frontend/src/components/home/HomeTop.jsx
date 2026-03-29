@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 
 function HomeTop() {
     const { isAuthenticated, isAuthChecked } = useSelector((state) => state.user);
-    if (!isAuthChecked) return null;
+    // if (!isAuthChecked) return null;
 
     return (
         <section className="relative  bg-[#181523] overflow-hidden">
@@ -77,11 +77,6 @@ function HomeTop() {
 
                     </div>
                 </div>
-
-
-
-
-
             </div>
         </section>
     )

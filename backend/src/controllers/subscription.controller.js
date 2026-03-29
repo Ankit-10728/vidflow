@@ -49,10 +49,10 @@ const unsubscribe = asyncHandler(async (req, res) => {
 
 const getAllSubscriber = asyncHandler(async (req, res) => {
     const userId = req.user._id;
-
+    const { id } = req.params;
     const allSubs = await Subscription
         .find({
-            channel: userId
+            channel: id
         })
         .populate("channel", "fullname avatar userId")
 

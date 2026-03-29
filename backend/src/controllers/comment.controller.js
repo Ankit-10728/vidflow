@@ -6,8 +6,11 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 
 
 const createComment = (targetType) => asyncHandler(async (req, res) => {
+
     const userId = req.user._id
     const { id } = req.params
+    console.log("Before DB call");
+
     if (!id) throw new ApiError(400, "Id not found : comment")
 
     const commentCheck = await Comment.findOne({
@@ -16,16 +19,19 @@ const createComment = (targetType) => asyncHandler(async (req, res) => {
         owner: userId
     })
 
-    if (!commentCheck) throw new ApiError(400, "Comment allready exist")
+    if (commentCheck) console.log("comment allready exist printing");
+
+    if (commentCheck) throw new ApiError(400, "Comment allready exist")
 
     const { content } = req.body
     if (!content) throw new ApiError(400, "Comment content not found")
 
     const comment = await Comment.findOneAndUpdate(
-        { targetId, targetType, owner: userId },
+        { targetId: id, targetType, owner: userId },
         { $set: { content } },
         { upsert: true, new: true }
     );
+
 
     if (!comment) throw new ApiError(400, "comment not found")
 
@@ -36,6 +42,8 @@ const createComment = (targetType) => asyncHandler(async (req, res) => {
         )
 })
 
+
+
 const getComments = (targetType) => asyncHandler(async (req, res) => {
     const { id } = req.params
     if (!id) throw new ApiError(400, "field is required to get comments");
@@ -43,7 +51,7 @@ const getComments = (targetType) => asyncHandler(async (req, res) => {
     const comments = await Comment.find({
         targetId: id,
         targetType
-    }).populate("owner", "username avatar")
+    }).populate("owner", "username avatar fullname")
 
     return res
         .status(200)

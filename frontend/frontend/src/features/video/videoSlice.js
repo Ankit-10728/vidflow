@@ -55,6 +55,7 @@ const videoSlice = createSlice({
 
                 if (action.payload?.data) {
                     state.videos.myVideos.unshift(action.payload.data);
+                    state.videos.currentVideo = action.payload?.data || action.payload;
                 }
             })
 

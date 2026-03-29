@@ -22,6 +22,8 @@ export const getVideoById = createAsyncThunk(
     "video/getVideoById",
     async (videoId, thunkApi) => {
         try {
+            console.log("from api");
+
             const res = await api.get(`/video/${videoId}`);
             return res.data;
         } catch (error) {

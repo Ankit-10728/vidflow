@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { getTweet } from "../../features/tweet/tweetApi";
 import { useState } from "react";
-import { TweetActions, TweetContent, TweetHeader } from "../index.js"
+import { TweetContent, TweetHeader } from "../index.js"
 
 function Tweet() {
     const { tweetId } = useParams();
@@ -39,8 +39,7 @@ function Tweet() {
                 <TweetContent
                     content={tweet.tweet.content}
                 />
-                <TweetActions
-                />
+
             </div>
         </div>
     );

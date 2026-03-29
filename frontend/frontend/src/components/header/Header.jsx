@@ -5,7 +5,6 @@ import { Link, NavLink } from 'react-router-dom'
 
 function Header() {
     const { isAuthenticated, isAuthChecked } = useSelector(state => state.user);
-    if (!isAuthChecked) return null;
 
     const navItems = [
         {

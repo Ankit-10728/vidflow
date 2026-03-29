@@ -1,9 +1,9 @@
 // import { Login as LoginComponent } from '../components'
-
+import VideoPage from "../components/video/DisplayVideo/VideoCard"
 function Post() {
     return (
-        <div className=' h-screen py-8'>
-            post page
+        <div className=' h-screen '>
+            <VideoPage />
         </div>
     )
 }

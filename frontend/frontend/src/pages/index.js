@@ -7,6 +7,7 @@ import Post from "./Postpage";
 import AllPost from "./Allpost";
 import Addtweet from "./AddtweetPage";
 import TweetPage from "./TweetPage";
+import UploadPage from "./UploadVideoPage";
 export {
     Login,
     Signup,
@@ -16,5 +17,6 @@ export {
     Post,
     AllPost,
     Addtweet,
-    TweetPage
+    TweetPage,
+    UploadPage
 }

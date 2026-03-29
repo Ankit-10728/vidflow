@@ -13,10 +13,9 @@ import Sidebar from "./SideBar";
 import AddTweet from "./AddTweet";
 import Tweet from "./TweetCompo/Tweet";
 // import TweetCard from "./TweetCompo/tweetCard/TweetCard";
-import TweetActions from "./TweetCompo/tweetCard/TweetActions";
 import TweetContent from "./TweetCompo/tweetCard/TweetContent";
 import TweetHeader from "./TweetCompo/tweetCard/TweetHeader";
-
+import VideoUpload from "./video/videoUpload";
 export {
     Container,
     Header,
@@ -32,9 +31,7 @@ export {
     Sidebar,
     AddTweet,
     Tweet,
-    // TweetCard,
     TweetContent,
     TweetHeader,
-    TweetActions,
-
+    VideoUpload,
 }

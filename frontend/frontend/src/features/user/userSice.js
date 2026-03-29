@@ -15,6 +15,7 @@ import {
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+    user: null,
     channelProfile: null,
     playlists: [],
     watchHistory: [],

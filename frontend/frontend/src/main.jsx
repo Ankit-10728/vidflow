@@ -17,7 +17,8 @@ import {
   Home,
   Signup,
   Addtweet,
-  TweetPage
+  TweetPage,
+  UploadPage
 } from "./pages"
 
 const router = createBrowserRouter([
@@ -86,7 +87,7 @@ const router = createBrowserRouter([
         path: '/add-post',
         element: (
           <Protected authentication={true}>
-            <Addpost />
+            <UploadPage />
           </Protected>
         ),
         children: []

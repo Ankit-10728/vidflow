@@ -88,9 +88,9 @@ export const updateCoverImage = createAsyncThunk(
 
 export const getUserChannelProfile = createAsyncThunk(
     "user/getUserChannelProfile",
-    async (username, thunkApi) => {
+    async (id, thunkApi) => {
         try {
-            const res = await api.get(`/user/c/${username}`);
+            const res = await api.get(`/user/c/${id}`);
             return res.data;
         } catch (error) {
             return thunkApi.rejectWithValue(error.response?.data || { message: error.message })

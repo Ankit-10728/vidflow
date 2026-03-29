@@ -82,14 +82,14 @@ router.route("/subscribed-channel").get(
     getAllSubscribedChannel
 )
 
-router.route("/subscriber").get(
+router.route("/subscriber/:id").get(
     verifyJWT,
     getAllSubscriber
 )
 
 router.route('/:userId/tweets').get(getUserTweets)
 
-router.route('/c/:username').get(getUserChannelProfile)
+router.route('/c/:id').get(getUserChannelProfile)
 router.route('/:userId/subscribe').post(
     verifyJWT,
     subscribe
