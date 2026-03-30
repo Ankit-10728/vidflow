@@ -1,17 +1,19 @@
 import {
     getLikedVideos,
-    getLikedTweets
+    getLikedTweets,
+    checkIsLiked
 } from "./likeApi";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+    curItemLiked: false,
     likedVideos: [],
     likedTweets: [],
     loading: false,
     error: null
 };
 
-const thunks = [getLikedTweets, getLikedVideos];
+const thunks = [getLikedTweets, getLikedVideos, checkIsLiked];
 
 const isPending = (thunks) => (action) =>
     thunks.some((thunk) => action.type === thunk.pending.type);
@@ -30,6 +32,10 @@ const likeSlice = createSlice({
             .addCase(getLikedVideos.fulfilled, (state, action) => {
                 state.loading = false;
                 state.likedVideos = action.payload?.data
+            })
+            .addCase(checkIsLiked.fulfilled, (state, action) => {
+                state.loading = false;
+                state.curItemLiked = action.payload?.data
             })
 
             .addCase(getLikedTweets.fulfilled, (state) => {

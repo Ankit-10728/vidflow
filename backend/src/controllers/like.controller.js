@@ -68,8 +68,25 @@ const getLikedItems = (targetType) => asyncHandler(async (req, res) => {
     );
 });
 
+const checkLike = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const isVidoeLiked = await Like.find({
+        targetId: id,
+        targetType: Video,
+        likedBy: req?.user?._id
+    })
+
+    if (!isVidoeLiked) throw new ApiError(400, "Error retrirving like by the current user");
+
+    return res.status(200).json(
+        new ApiResponse(200, isVidoeLiked, "data fetched successfully")
+    );
+})
+
 export {
     like,
     unlike,
-    getLikedItems
+    getLikedItems,
+    checkLike
 }

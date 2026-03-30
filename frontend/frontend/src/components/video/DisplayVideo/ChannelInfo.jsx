@@ -8,27 +8,26 @@ import LikeButton from "./LikeButton";
 import DeleteButton from "./DeleteButton";
 import { deleteVideo } from "../../../features/video/videoApi";
 import SubscribeButton from "./SubscribeButton";
+import { getLikedVideos } from "../../../features/like/likeApi";
 
 function ChannelInfo() {
     const video = useSelector((state) => state.video.videos.currentVideo);
-
+    // console.log("this is the chennel info");
+    // console.log(video);
     const owner = video?.owner;
     const dispatch = useDispatch();
-
     const user = useSelector((state) => state.user?.user?.user?._id)
-
     const channelData = useSelector((state) => state.user?.channelProfile)
-
     useEffect(() => {
         if (!owner) return;
-
+        dispatch(getLikedVideos(video._id))
         dispatch(getUserChannelProfile(owner));
     }, [owner, dispatch]);
 
+    const initialLikes = useSelector((state) => state?.like?.likedVideos)
     console.log("from channel info");
     console.log(channelData);
     // console.log(video.views);
-
 
     return (
         <>
@@ -57,7 +56,7 @@ function ChannelInfo() {
 
                 <div className="flex font-bold items-center gap-4 text-lg">
 
-                    <LikeButton initialLikes={3} />
+                    <LikeButton initialLikes={initialLikes.length} id={video?._id} />
 
                     <ShareButton url={`http://localhost:8000/video/${video?._id}`} />
 

@@ -1,14 +1,23 @@
 import { useState } from "react";
+import { likeVideo, unlikeVideo } from "../../../features/like/likeApi";
+import { useDispatch } from "react-redux";
 
-function LikeButton({ initialLikes = 0 }) {
+function LikeButton({ initialLikes = 0, id }) {
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState(initialLikes);
+    const dispatch = useDispatch();
 
-    const handleLike = () => {
+    const handleLike = async () => {
         if (liked) {
             setLikes(likes - 1);
+            const likedItem = await dispatch(likeVideo(id));
+            console.log(likedItem);
+
         } else {
             setLikes(likes + 1);
+            const unlikedItem = await dispatch(unlikeVideo(id));
+            console.log(unlikedItem);
+
         }
         setLiked(!liked);
     };
