@@ -19,8 +19,11 @@ function ChannelInfo() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user?.user?._id)
     const channelData = useSelector((state) => state.user?.channelProfile)
-    const subscribers = useSelector((state) => state?.subscriber?.subscribers)
-    const likescount = useSelector((state) => state?.like?.likedVideos || 334)
+    const likescount = useSelector((state) => state?.like?.likedVideos || 3)
+    console.log("this is just for checking the total likes");
+    console.log(likescount);
+
+
     const channelId = channelData?._id
 
     useEffect(() => {

@@ -4,22 +4,20 @@ import { likeVideo, unlikeVideo, checkIsLiked } from "../../../features/like/lik
 import { useDispatch, useSelector } from "react-redux";
 import { setLike, setUnlike } from "../../../features/like/likeSlice";
 
-function LikeButton({ id, initialCount = 0 }) {
+function LikeButton({ id, initialCount = 5 }) {
     const dispatch = useDispatch();
-
-
     const liked = useSelector((state) => state.like.curItemLiked);
-    console.log(liked);
-    console.log("this is foe checking is liekd");
 
-
-    const [likes, setLikes] = useState(initialCount);
+    const [likes, setLikes] = useState(0);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLikes(initialCount)
+    }, [initialCount])
 
 
     useEffect(() => {
         if (!id) return;
-
         dispatch(checkIsLiked(id));
     }, [id, dispatch]);
 
