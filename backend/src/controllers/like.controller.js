@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { Like } from "../models/like.models.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import mongoose from "mongoose";
 
 const like = (targetType) =>
     asyncHandler(async (req, res) => {
@@ -10,21 +11,21 @@ const like = (targetType) =>
 
         if (!id) throw new ApiError(400, "Field incomplete : like")
 
-        const like = await Like.findOneAndUpdate(
-            await Like.findOneAndUpdate(
-                { targetId: id, targetType, likedBy: userId },
-                {
-                    $setOnInsert: {
-                        targetId: id,
-                        targetType,
-                        likedBy: userId
-                    }
-                },
-                {
-                    upsert: true,
-                    new: true
-                }
-            ))
+        const existing = await Like.findOne({
+            targetId: new mongoose.Types.ObjectId(id),
+            targetType,
+            likedBy: new mongoose.Types.ObjectId(userId)
+        });
+
+        if (existing) {
+            return res.json({ message: "Already liked" });
+        }
+
+        const like = await Like.create({
+            targetId: new mongoose.Types.ObjectId(id),
+            targetType,
+            likedBy: new mongoose.Types.ObjectId(userId)
+        });
 
 
         return res.status(200).json(
@@ -39,9 +40,9 @@ const unlike = (targetType) =>
         if (!id) throw new ApiError(400, "Field incomplete : unlike")
 
         const deleted = await Like.findOneAndDelete({
-            targetId: id,
+            targetId: new mongoose.Types.ObjectId(id),
             targetType,
-            likedBy: userId
+            likedBy: new mongoose.Types.ObjectId(userId)
         });
 
         if (!deleted) {
@@ -56,33 +57,45 @@ const unlike = (targetType) =>
 const getLikedItems = (targetType) => asyncHandler(async (req, res) => {
     const { id } = req?.params;
 
-    const likedItems = await Like.find({
-        targetId: id,
-        targetType
-    })
-        .populate("targetId", "title content thumbnail owner")
-        .sort({ createdAt: -1 });
+    // const likedItems = await Like.find({
+    //     targetId: new mongoose.Types.ObjectId(id),
+    //     targetType
+    // })
+
+    const likedItems = await Like.find({});
+
+    const allLikes = await Like.find({});
+    console.log("LIKES FROM BACKEND:", allLikes);
+
+
+    console.log("from like controller get liked item");
+    console.log(likedItems);
+    console.log(id);
+
+
+
 
     return res.status(200).json(
         new ApiResponse(200, likedItems, `Liked ${targetType}s fetched successfully`)
     );
 });
 
-const checkLike = asyncHandler(async (req, res) => {
+const checkLike = (targetType) => asyncHandler(async (req, res) => {
     const { id } = req.params;
 
-    const isVidoeLiked = await Like.find({
-        targetId: id,
-        targetType: Video,
-        likedBy: req?.user?._id
-    })
-
-    if (!isVidoeLiked) throw new ApiError(400, "Error retrirving like by the current user");
+    const isLiked = await Like.findOne({
+        targetId: new mongoose.Types.ObjectId(id),
+        targetType,
+        likedBy: new mongoose.Types.ObjectId(req?.user?._id)
+    });
+    console.log("from like controler =======================");
+    console.log(isLiked);
 
     return res.status(200).json(
-        new ApiResponse(200, isVidoeLiked, "data fetched successfully")
+        new ApiResponse(200, isLiked ? true : false, "data fetched successfully")
     );
-})
+});
+
 
 export {
     like,

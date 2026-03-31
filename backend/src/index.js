@@ -22,6 +22,7 @@ console.log("SERVER FILE LOADED");
         app.listen(process.env.PORT, () => {
             console.log(`App is listening on port ${process.env.PORT}`);
         })
+
     } catch (error) {
         console.log("Mongo DB connection failed : " + error);
         throw error

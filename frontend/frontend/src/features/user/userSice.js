@@ -166,8 +166,13 @@ const userSlice = createSlice({
 
             .addMatcher(isRejected(authThunks), (state, action) => {
                 state.loading.auth = false;
-                console.log(action.payload.data)
-                state.error.auth = action?.payload?.error;
+                console.log(action.payload)
+                // state.error.auth = action?.payload?.error;
+                state.error.auth =
+                    action.payload?.message ||
+                    action.payload?.error ||
+                    action.error?.message ||
+                    "Login failed";
             })
 
             .addMatcher(isRejected(profileThunks), (state, action) => {

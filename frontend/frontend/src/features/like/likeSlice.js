@@ -25,7 +25,16 @@ const isRejected = (thunks) => (action) =>
 const likeSlice = createSlice({
     name: "likes",
     initialState,
-    reducers: {},
+    reducers: {
+        setUnlike: (state) => {
+            state.curItemLiked = false;
+            console.log("inside the like slice");
+
+        },
+        setLike: (state) => {
+            state.curItemLiked = true;
+        },
+    },
 
     extraReducers: (builder) => {
         builder
@@ -35,7 +44,7 @@ const likeSlice = createSlice({
             })
             .addCase(checkIsLiked.fulfilled, (state, action) => {
                 state.loading = false;
-                state.curItemLiked = action.payload?.data
+                state.curItemLiked = !!action.payload?.data;
             })
 
             .addCase(getLikedTweets.fulfilled, (state) => {
@@ -54,5 +63,5 @@ const likeSlice = createSlice({
             })
     }
 })
-
+export const { setLike, setUnlike } = likeSlice.actions;
 export default likeSlice.reducer;
