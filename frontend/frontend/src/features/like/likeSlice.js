@@ -35,7 +35,7 @@ const likeSlice = createSlice({
             })
             .addCase(checkIsLiked.fulfilled, (state, action) => {
                 state.loading = false;
-                state.curItemLiked = action.payload?.data
+                state.curItemLiked = !!action.payload?.data;
             })
 
             .addCase(getLikedTweets.fulfilled, (state) => {

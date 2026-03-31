@@ -12,8 +12,8 @@ import { getLikedVideos } from "../../../features/like/likeApi";
 
 function ChannelInfo() {
     const video = useSelector((state) => state.video.videos.currentVideo);
-    // console.log("this is the chennel info");
-    // console.log(video);
+    console.log("this is the chennel info");
+    console.log(video);
     const owner = video?.owner;
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user?.user?.user?._id)

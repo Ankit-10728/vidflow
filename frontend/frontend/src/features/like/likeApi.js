@@ -96,7 +96,7 @@ export const getLikedVideos = createAsyncThunk(
     "like/getLikedVideos",
     async (id, thunkApi) => {
         try {
-            const res = await api.get(`/like/videos/:${id}`, {
+            const res = await api.get(`/like/videos/${id}`, {
                 withCredentials: true,
             });
             return res.data;
