@@ -15,16 +15,19 @@ function ChannelInfo() {
     console.log("this is the chennel info");
     console.log(video);
     const owner = video?.owner;
+    const videoId = video?._id
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user?.user?.user?._id)
     const channelData = useSelector((state) => state.user?.channelProfile)
+
+    const likescount = useSelector((state) => state?.like?.likedVideos || 334)
+
     useEffect(() => {
         if (!owner) return;
         dispatch(getLikedVideos(video._id))
         dispatch(getUserChannelProfile(owner));
-    }, [owner, dispatch]);
+    }, [dispatch, videoId]);
 
-    const initialLikes = useSelector((state) => state?.like?.likedVideos)
     console.log("from channel info");
     console.log(channelData);
     // console.log(video.views);
@@ -56,7 +59,7 @@ function ChannelInfo() {
 
                 <div className="flex font-bold items-center gap-4 text-lg">
 
-                    <LikeButton initialLikes={initialLikes.length} id={video?._id} />
+                    <LikeButton id={video?._id} initialCount={likescount.length} />
 
                     <ShareButton url={`http://localhost:8000/video/${video?._id}`} />
 

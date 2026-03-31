@@ -25,7 +25,16 @@ const isRejected = (thunks) => (action) =>
 const likeSlice = createSlice({
     name: "likes",
     initialState,
-    reducers: {},
+    reducers: {
+        setUnlike: (state) => {
+            state.curItemLiked = false;
+            console.log("inside the like slice");
+
+        },
+        setLike: (state) => {
+            state.curItemLiked = true;
+        },
+    },
 
     extraReducers: (builder) => {
         builder
@@ -54,5 +63,5 @@ const likeSlice = createSlice({
             })
     }
 })
-
+export const { setLike, setUnlike } = likeSlice.actions;
 export default likeSlice.reducer;

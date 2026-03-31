@@ -41,12 +41,17 @@ export const likeTweet = createAsyncThunk(
 export const checkIsLiked = createAsyncThunk("like/checkLiked",
     async (videoId, thunkApi) => {
         try {
+            console.log("THUNK CALLED with id:", videoId); // 👈 ADD THIS
+
             const res = await api.get(
                 `/videos/checkLike/${videoId}/`,
-                {},
                 { withCredentials: true }
             );
-            return { videoId, data: res.data };
+            console.log(res.data.data);
+            console.log("from like api -=-=-=-==-=-=-=-=-=-==-");
+
+
+            return { videoId, data: res.data.data };
         } catch (error) {
             return thunkApi.rejectWithValue(
                 error.response?.data || { message: error.message }

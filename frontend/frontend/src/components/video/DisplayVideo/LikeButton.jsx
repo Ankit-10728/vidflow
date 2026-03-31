@@ -1,63 +1,58 @@
-import { useState } from "react";
-import { likeVideo, unlikeVideo } from "../../../features/like/likeApi";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { checkIsLiked } from "../../../features/like/likeApi";
+import { useState, useEffect } from "react";
+import { likeVideo, unlikeVideo, checkIsLiked } from "../../../features/like/likeApi";
+import { useDispatch, useSelector } from "react-redux";
+import { setLike, setUnlike } from "../../../features/like/likeSlice";
 
-function LikeButton({ initialLikes = 0, id }) {
+function LikeButton({ id, initialCount = 0 }) {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
-
-    console.log("tjis is from like button");
-    console.log(id);
-
 
     const liked = useSelector((state) => state.like.curItemLiked);
-    const [likes, setLikes] = useState(initialLikes);
+    console.log(liked);
+    console.log("this is foe checking is liekd");
 
-    // ✅ Check initial like status
+
+    const [likes, setLikes] = useState(initialCount);
+    const [loading, setLoading] = useState(false);
+
+
     useEffect(() => {
-        if (!id) return
+        if (!id) return;
+
         dispatch(checkIsLiked(id));
     }, [id, dispatch]);
 
-    // ✅ Handle toggle
-    // const handleLike = async () => {
-    //     if (liked) {
-    //         setLikes((prev) => prev - 1);
-    //         await dispatch(unlikeVideo(id));
-    //     } else {
-    //         setLikes((prev) => prev + 1);
-    //         await dispatch(likeVideo(id));
-    //     }
-    // };
 
     const handleLike = async () => {
-        if (loading) return; // 🚫 prevent spam
+        if (loading) return;
 
         setLoading(true);
 
-        if (liked) {
-            setLikes(prev => Math.max(0, prev - 1)); // prevent negative
-            await dispatch(unlikeVideo(id));
-        } else {
-            setLikes(prev => prev + 1);
-            await dispatch(likeVideo(id));
+        try {
+            if (liked) {
+                setLikes(prev => Math.max(0, prev - 1));
+                await dispatch(unlikeVideo(id));
+                dispatch(setUnlike(false))
+            } else {
+                setLikes(prev => prev + 1);
+                await dispatch(likeVideo(id));
+                dispatch(setLike(true))
+            }
+        } catch (err) {
+            console.error(err);
         }
 
         setLoading(false);
     };
 
-
     return (
         <button
             onClick={handleLike}
+            disabled={loading}
             className={`flex items-center gap-2 px-4 py-2 rounded-full transition 
-        ${liked
+                ${liked
                     ? "bg-blue-600 text-white"
                     : "bg-gray-700 text-gray-300 hover:bg-gray-600"}
-      `}
+            `}
         >
             <span className={`text-lg transition ${liked ? "scale-125" : ""}`}>
                 👍
