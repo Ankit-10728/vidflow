@@ -11,6 +11,7 @@ import {
     updateCoverImage,
     getUserChannelProfile,
     getWatchHistory,
+    isSubscribed
 } from "../controllers/user.controller.js";
 import {
     getAllSubscribedChannel,
@@ -82,7 +83,7 @@ router.route("/subscribed-channel").get(
     getAllSubscribedChannel
 )
 
-router.route("/subscriber/:id").get(
+router.route("/subscriber/:channelId").get(
     verifyJWT,
     getAllSubscriber
 )
@@ -90,14 +91,17 @@ router.route("/subscriber/:id").get(
 router.route('/:userId/tweets').get(getUserTweets)
 
 router.route('/c/:id').get(getUserChannelProfile)
-router.route('/:userId/subscribe').post(
+router.route('/:channelId/subscribe').post(
     verifyJWT,
     subscribe
 )
 
-router.route('/:userId/unsubscribe').post(
+router.route('/:channelId/unsubscribe').post(
     verifyJWT,
     unsubscribe
+)
+router.route('/:userId/isSubscribed/:channelId').get(
+    isSubscribed
 )
 
 router.route('/:userId/playlists').get(

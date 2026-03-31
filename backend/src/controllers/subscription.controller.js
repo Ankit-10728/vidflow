@@ -2,19 +2,19 @@ import { Subscription } from "../models/subscription.models.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-
+import mongoose from "mongoose";
 
 const subscribe = asyncHandler(async (req, res) => {
     const userId = req.user._id;
 
-    const { userId: channelId } = req.params;
-    if (channelId.equals(userId)) throw new ApiError(400, "Cannot subscribe to own channel");
+    const { channelId } = req.params;
+    // if (channelId.equals(userId)) throw new ApiError(400, "Cannot subscribe to own channel");
     if (!channelId || channelId.trim() === "") throw new ApiError(404, "Channel id field is required");
 
     const subscribed = await Subscription.create(
         {
-            channel: channelId,
-            subscriber: userId
+            subscriber: new mongoose.Types.ObjectId(userId),
+            channel: new mongoose.Types.ObjectId(channelId)
         }
     )
 
@@ -28,14 +28,15 @@ const subscribe = asyncHandler(async (req, res) => {
 
 
 const unsubscribe = asyncHandler(async (req, res) => {
-    const { userId: channelId } = req.params;
+    const { channelId } = req.params;
     const userId = req.user._id;
 
     if (!channelId || channelId.trim() === "") throw new ApiError(404, "Channel id field is required");
 
     const unsubscribe = await Subscription.findOneAndDelete({
-        channel: channelId,
-        subscriber: userId
+
+        subscriber: new mongoose.Types.ObjectId(userId),
+        channel: new mongoose.Types.ObjectId(channelId)
     })
 
     if (!unsubscribe) throw new ApiError(400, "not subscribed to channel");
@@ -49,10 +50,11 @@ const unsubscribe = asyncHandler(async (req, res) => {
 
 const getAllSubscriber = asyncHandler(async (req, res) => {
     const userId = req.user._id;
-    const { id } = req.params;
+    const { channelId } = req.params;
     const allSubs = await Subscription
         .find({
-            channel: id
+
+            channel: new mongoose.Types.ObjectId(channelId)
         })
         .populate("channel", "fullname avatar userId")
 
@@ -69,7 +71,7 @@ const getAllSubscribedChannel = asyncHandler(async (req, res) => {
     const userId = req.user._id;
 
     const channel = await Subscription.find({
-        subscriber: userId
+        subscriber: new mongoose.Types.ObjectId(userId)
     })
 
     return res

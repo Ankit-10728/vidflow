@@ -6,7 +6,7 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import fs from 'fs'
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-
+import { Subscription } from "../models/subscription.models.js";
 
 const options = {
     httpOnly: true,
@@ -462,6 +462,30 @@ const getWatchHistory = asyncHandler(async (req, res) => {
         )
 })
 
+const isSubscribed = asyncHandler(async (req, res) => {
+    const { userId, channelId } = req.params;
+
+    const sub = await Subscription.findOne({
+        subscriber: new mongoose.Types.ObjectId(userId),
+        channel: new mongoose.Types.ObjectId(channelId)
+    })
+
+    console.log("this is from user controller for checking is subscribed");
+    console.log(sub);
+
+
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                sub,
+                "data fetched successfully"
+            )
+        )
+})
+
 export {
     registerUser,
     loginUser,
@@ -474,4 +498,5 @@ export {
     updateCoverImage,
     getUserChannelProfile,
     getWatchHistory,
+    isSubscribed,
 }

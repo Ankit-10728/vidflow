@@ -1,4 +1,4 @@
-import { getSubscribedChannels, getSubscribers } from "./subscriptionApi.js"
+import { getSubscribedChannels, getSubscribers, isSubscribed } from "./subscriptionApi.js"
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

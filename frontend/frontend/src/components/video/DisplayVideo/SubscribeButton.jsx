@@ -1,24 +1,48 @@
 import { useState } from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { isSubscribed, unsubscribeUser, subscribeUser } from "../../../features/subscription/subscriptionApi";
 
-function SubscribeButton({
-    initialSubscribed = false,
-    onToggle
-}) {
-    const [subscribed, setSubscribed] = useState(initialSubscribed);
+function SubscribeButton({ userId, channelId }) {
+
+    const dispatch = useDispatch()
+
+    const [subscribed, setSubscribed] = useState(false);
+    useEffect(() => {
+        if (!userId || !channelId) return;
+        const check = async () => {
+            const temp = await dispatch(isSubscribed({ userId, channelId }));
+
+            console.log("this is form sub button");
+            console.log(temp.payload.data);
+            setSubscribed(temp.payload.data)
+            console.log("ewghiuegt iergiosdgriuoers iosurgioeub");
+
+        }
+        check();
+
+    }, [userId, channelId])
+
+
+
+    console.log("this is for checking the inital state of subscribe");
+    console.log(subscribed);
+
+
+
 
     const handleSubscribe = async () => {
         try {
             if (subscribed) {
-                setCount(count - 1);
+                dispatch(unsubscribeUser(channelId))
+                setSubscribed(false)
             } else {
-                setCount(count + 1);
+                dispatch(subscribeUser(channelId))
+                setSubscribed(true)
             }
 
             setSubscribed(!subscribed);
 
-            if (onToggle) {
-                await onToggle(!subscribed); // API call from parent
-            }
         } catch (err) {
             console.error(err);
         }

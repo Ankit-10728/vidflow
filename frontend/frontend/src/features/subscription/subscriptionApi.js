@@ -32,9 +32,9 @@ export const getSubscribers = createAsyncThunk(
 
 export const subscribeUser = createAsyncThunk(
     "subscription/subscribeUser",
-    async (userId, thunkApi) => {
+    async (channelId, thunkApi) => {
         try {
-            const res = await api.post(`/user/${userId}/subscribe`);
+            const res = await api.post(`/user/${channelId}/subscribe`);
             return res.data;
         } catch (error) {
             return thunkApi.rejectWithValue(
@@ -46,9 +46,9 @@ export const subscribeUser = createAsyncThunk(
 
 export const unsubscribeUser = createAsyncThunk(
     "subscription/unsubscribeUser",
-    async (userId, thunkApi) => {
+    async (channelId, thunkApi) => {
         try {
-            const res = await api.post(`/user/${userId}/unsubscribe`);
+            const res = await api.post(`/user/${channelId}/unsubscribe`);
             return res.data;
         } catch (error) {
             return thunkApi.rejectWithValue(
@@ -57,4 +57,18 @@ export const unsubscribeUser = createAsyncThunk(
         }
     }
 );
+
+export const isSubscribed = createAsyncThunk(
+    "subscription/isSubscribed",
+    async ({ userId, channelId }, thunkApi) => {
+        try {
+            const res = await api.get(`/user/${userId}/isSubscribed/${channelId}`);
+            return res.data;
+        } catch (error) {
+            return thunkApi.rejectWithValue(
+                error.response?.data || { message: error.message }
+            );
+        }
+    }
+)
 

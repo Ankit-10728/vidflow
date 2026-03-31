@@ -17,26 +17,15 @@ function ChannelInfo() {
     const owner = video?.owner;
     const videoId = video?._id
     const dispatch = useDispatch();
-    const temp = useSelector((state) => state.user)
     const user = useSelector((state) => state.user?.user?._id)
-
-
-    // const user = useSelector((state) => state.user?.user?._id);
     const channelData = useSelector((state) => state.user?.channelProfile)
-
-    console.log(user);
-    console.log(useSelector((state) => state.user));
-    console.log(temp);
-
-    console.log("thsi 76587258327695#$%^*&(&*&");
-
-
-
+    const subscribers = useSelector((state) => state?.subscriber?.subscribers)
     const likescount = useSelector((state) => state?.like?.likedVideos || 334)
+    const channelId = channelData?._id
 
     useEffect(() => {
         if (!owner) return;
-        dispatch(getLikedVideos(video._id))
+        dispatch(getLikedVideos(videoId))
         dispatch(getUserChannelProfile(owner));
     }, [dispatch, videoId]);
 
@@ -60,23 +49,20 @@ function ChannelInfo() {
 
 
                     <SubscribeButton
-                        initialSubscribed={channelData?.isSubscribed}
-                        onToggle={async (newState) => {
-                            await dispatch(toggleSubscription(channelData._id));
-                        }}
+                        userId={user} channelId={channelId}
                     />
                 </div>
 
                 <div className="flex font-bold items-center gap-4 text-lg">
 
-                    <LikeButton id={video?._id} initialCount={likescount.length} />
+                    <LikeButton id={videoId} initialCount={likescount.length} />
 
-                    <ShareButton url={`http://localhost:8000/video/${video?._id}`} />
+                    <ShareButton url={`http://localhost:8000/video/${videoId}`} />
 
                     {
                         (user == owner) &&
                         <DeleteButton onDelete={async () => {
-                            await dispatch(deleteVideo(video._id))
+                            await dispatch(deleteVideo(videoId))
                         }} />
                     }
 
