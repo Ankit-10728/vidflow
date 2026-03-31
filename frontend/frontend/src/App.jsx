@@ -8,6 +8,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("Fetching user...&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7");
     dispatch(fetchCurrentUser());
   }, [dispatch]);
   return (

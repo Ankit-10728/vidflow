@@ -5,7 +5,12 @@ export const fetchCurrentUser = createAsyncThunk(
     "user/fetchCurrentUser",
     async (_, thunkApi) => {
         try {
+
+            console.log("from fetch current user      __________))))))))))))_________");
+
             const res = await api.get("/user/get-user");
+            console.log("API response:", res.data);
+            console.log("from fetch current user      __________))))))))))))_________");
             return res.data.data;
         } catch (error) {
             return thunkApi.rejectWithValue(error.response?.data || { message: error.message })

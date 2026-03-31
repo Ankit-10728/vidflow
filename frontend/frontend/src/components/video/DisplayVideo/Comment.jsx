@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getVideoComments, createVideoComment } from "../../../features/comment/commentApi";
+import { getVideoComments, createVideoComment, deleteVideoComment } from "../../../features/comment/commentApi";
 
 function CommentsSection() {
     const [comment, setComment] = useState("");
     const dispatch = useDispatch();
-    const user = useSelector((state) => state?.user?.user?.user._id)
+    const user = useSelector((state) => state?.user?.user?._id)
 
     const video = useSelector((state) => state.video.videos.currentVideo);
     const comments = useSelector((state) => state.comment.comments.videoComments);
@@ -28,6 +28,11 @@ function CommentsSection() {
         dispatch(getVideoComments(video._id));
         setComment("");
     };
+
+    const handleDelete = async (id) => {
+        await dispatch(deleteVideoComment(id))
+        dispatch(getVideoComments(video._id));
+    }
 
     return (
         <div className="bg-gray-800 p-4 rounded-xl">

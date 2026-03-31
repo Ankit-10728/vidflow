@@ -2,7 +2,7 @@ import { Comment } from "../models/comment.models.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
-
+import mongoose from "mongoose"
 
 
 const createComment = (targetType) => asyncHandler(async (req, res) => {
@@ -14,9 +14,9 @@ const createComment = (targetType) => asyncHandler(async (req, res) => {
     if (!id) throw new ApiError(400, "Id not found : comment")
 
     const commentCheck = await Comment.findOne({
-        targetId: id,
+        targetId: new mongoose.Types.ObjectId(id),
         targetType,
-        owner: userId
+        owner: new mongoose.Types.ObjectId(userId)
     })
 
     if (commentCheck) console.log("comment allready exist printing");
@@ -27,7 +27,11 @@ const createComment = (targetType) => asyncHandler(async (req, res) => {
     if (!content) throw new ApiError(400, "Comment content not found")
 
     const comment = await Comment.findOneAndUpdate(
-        { targetId: id, targetType, owner: userId },
+        {
+            targetId: new mongoose.Types.ObjectId(id),
+            targetType,
+            owner: new mongoose.Types.ObjectId(userId)
+        },
         { $set: { content } },
         { upsert: true, new: true }
     );
@@ -49,7 +53,7 @@ const getComments = (targetType) => asyncHandler(async (req, res) => {
     if (!id) throw new ApiError(400, "field is required to get comments");
 
     const comments = await Comment.find({
-        targetId: id,
+        targetId: new mongoose.Types.ObjectId(id),
         targetType
     }).populate("owner", "username avatar fullname")
 
@@ -64,11 +68,15 @@ const deleteComment = (targetType) => asyncHandler(async (req, res) => {
     const userId = req.user._id
     const { id } = req.params
 
-    const deleted = Comment.findOneAndDelete({
-        targetId: id,
-        targetType,
-        owner: userId
-    })
+    console.log("deleting comments ");
+
+
+    // const deleted = Comment.findOneAndDelete({
+    //     targetId: new mongoose.Types.ObjectId(id),
+    //     targetType,
+    //     owner: new mongoose.Types.ObjectId(userId)
+    // })
+    const deleted = await Comment.findByIdAndDelete(id)
 
     if (!deleted) {
         throw new ApiError(404, "comment not found");
@@ -91,9 +99,9 @@ const updateComment = (targetType) => asyncHandler(async (req, res) => {
     if (!content || content.trim() === "") throw new ApiError(404, "comment cannot be empty");
 
     const comment = await Comment.findOneAndUpdate({
-        targetId: id,
+        targetId: new mongoose.Types.ObjectId(id),
         targetType,
-        owner: userId
+        owner: new mongoose.Types.ObjectId(userId)
     },
         { $set: { content: content } },
         { new: true })

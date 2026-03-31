@@ -118,10 +118,14 @@ export const deleteVideoComment = createAsyncThunk(
     "comment/deleteVideoComment",
     async (videoId, thunkApi) => {
         try {
+
             const res = await api.delete(
                 `/comment/videos/${videoId}`,
                 { withCredentials: true }
             );
+            console.log("delete api reached");
+            console.log(res.data);
+
             return { videoId, data: res.data };
         } catch (error) {
             return thunkApi.rejectWithValue(

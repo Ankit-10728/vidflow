@@ -17,8 +17,20 @@ function ChannelInfo() {
     const owner = video?.owner;
     const videoId = video?._id
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.user?.user?.user?._id)
+    const temp = useSelector((state) => state.user)
+    const user = useSelector((state) => state.user?.user?._id)
+
+
+    // const user = useSelector((state) => state.user?.user?._id);
     const channelData = useSelector((state) => state.user?.channelProfile)
+
+    console.log(user);
+    console.log(useSelector((state) => state.user));
+    console.log(temp);
+
+    console.log("thsi 76587258327695#$%^*&(&*&");
+
+
 
     const likescount = useSelector((state) => state?.like?.likedVideos || 334)
 
@@ -30,8 +42,6 @@ function ChannelInfo() {
 
     console.log("from channel info");
     console.log(channelData);
-    // console.log(video.views);
-
     return (
         <>
             <div className="flex items-center justify-between bg-gray-800 p-4 rounded-xl">
@@ -64,7 +74,7 @@ function ChannelInfo() {
                     <ShareButton url={`http://localhost:8000/video/${video?._id}`} />
 
                     {
-                        (owner == owner) &&
+                        (user == owner) &&
                         <DeleteButton onDelete={async () => {
                             await dispatch(deleteVideo(video._id))
                         }} />
