@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getVideoComments, createVideoComment, deleteVideoComment } from "../../../features/comment/commentApi";
 
 function CommentsSection() {
     const [comment, setComment] = useState("");
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const user = useSelector((state) => state?.user?.user?._id)
 
     const video = useSelector((state) => state.video.videos.currentVideo);
@@ -32,6 +34,10 @@ function CommentsSection() {
     const handleDelete = async (id) => {
         await dispatch(deleteVideoComment(id))
         dispatch(getVideoComments(video._id));
+    }
+
+    const handleClick = async (id) => {
+        navigate(`/channel/${owner}`)
     }
 
     return (
@@ -80,23 +86,27 @@ function CommentsSection() {
 
                                         <div className="flex flex-col">
 
-                                            <div className="flex items-center gap-3 text-xl">
-                                                <span className="text-gray-300 font-bold">
-                                                    @{c.owner?.username}
+                                            <div onClick={() => handleClick(c._id)} className="cursor-pointer">
+
+                                                <div className="flex items-center gap-3 text-xl">
+                                                    <span className="text-gray-300 font-bold">
+                                                        @{c.owner?.username}
+                                                    </span>
+
+                                                    <span className="text-gray-500">
+                                                        {new Date(c.createdAt).toLocaleDateString("en-IN", {
+                                                            day: "numeric",
+                                                            month: "long",
+                                                            year: "numeric",
+                                                        })}
+                                                    </span>
+                                                </div>
+
+                                                <span className="text-gray-400 text-xl font-medium">
+                                                    {c.owner?.fullname}
                                                 </span>
 
-                                                <span className="text-gray-500">
-                                                    {new Date(c.createdAt).toLocaleDateString("en-IN", {
-                                                        day: "numeric",
-                                                        month: "long",
-                                                        year: "numeric",
-                                                    })}
-                                                </span>
                                             </div>
-
-                                            <span className="text-gray-400 text-xl font-medium">
-                                                {c.owner?.fullname}
-                                            </span>
 
                                             <p className="text-gray-300 mt-1 text-lg p-4 pr-0">
                                                 {c.content}

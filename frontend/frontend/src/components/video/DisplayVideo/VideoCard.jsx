@@ -4,7 +4,7 @@ import ChannelInfo from "./ChannelInfo";
 import CommentsSection from "./Comment";
 
 function VideoCompo() {
-    const { id } = useParams();
+    // const { id } = useParams();
 
     return (
         <div className="h-screen overflow-hidden bg-gray-900 text-gray-200">

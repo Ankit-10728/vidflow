@@ -1,17 +1,19 @@
 import {
     getChannelStats,
-    getChannelVideos
+    getChannelVideos,
+    getChannelTweets
 } from "./dashboardApi.js"
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     stats: {},
     videos: [],
+    tweets: [],
     loading: false,
     error: null
 }
 
-const thunks = [getChannelStats, getChannelVideos]
+const thunks = [getChannelStats, getChannelVideos, getChannelTweets]
 
 const isPending = (thunks) => (action) =>
     thunks.some((thunk) => action.type === thunk.pending.type);
@@ -34,6 +36,10 @@ const dashboardSlice = createSlice({
             .addCase(getChannelVideos.fulfilled, (state, action) => {
                 state.loading = false;
                 state.videos = action.payload?.data
+            })
+            .addCase(getChannelTweets.fulfilled, (state, action) => {
+                state.loading = false;
+                state.tweets = action.payload?.data
             })
 
             .addMatcher(isPending(thunks), (state) => {

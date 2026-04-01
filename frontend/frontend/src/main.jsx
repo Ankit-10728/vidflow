@@ -17,7 +17,8 @@ import {
   Signup,
   Addtweet,
   TweetPage,
-  UploadPage
+  UploadPage,
+  ChannelPage
 } from "./pages"
 
 const router = createBrowserRouter([
@@ -105,6 +106,15 @@ const router = createBrowserRouter([
         element: (
           <Protected authentication={true}>
             <Post />
+          </Protected>
+        ),
+        children: []
+      },
+      {
+        path: '/channel/:slug',
+        element: (
+          <Protected authentication={true}>
+            <ChannelPage />
           </Protected>
         ),
         children: []

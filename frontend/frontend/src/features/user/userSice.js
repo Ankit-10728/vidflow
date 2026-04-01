@@ -181,7 +181,7 @@ const userSlice = createSlice({
 
             .addMatcher(isRejected(profileThunks), (state, action) => {
                 state.loading.profile = false;
-                state.error.profile = action.payload.data;
+                state.error.profile = action?.payload?.data;
             })
 
             .addMatcher(isRejected(playlistThunks), (state, action) => {

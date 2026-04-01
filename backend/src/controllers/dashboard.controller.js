@@ -1,6 +1,7 @@
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Video } from "../models/video.models.js"
+import { Tweet } from "../models/tweet.models.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.models.js";
 import mongoose from "mongoose";
@@ -8,6 +9,7 @@ import mongoose from "mongoose";
 const getChannelStats = asyncHandler(async (req, res) => {
     const { id: channelId } = req.params;
     if (!channelId || channelId.trim() === "") throw new ApiError(400, "channel field is required");
+    console.log("get chnnel stats reached");
 
     const channelStats = await User.aggregate([
         { $match: { _id: new mongoose.Types.ObjectId(channelId) } },
@@ -86,7 +88,23 @@ const getChannelVideos = asyncHandler(async (req, res) => {
         )
 })
 
+const getChannelTweets = asyncHandler(async (req, res) => {
+    const { id: channelId } = req.params;
+    if (!channelId || channelId.trim() === "") throw new ApiError(400, "channel field is required");
+
+    const tweets = await Tweet.find({
+        owner: channelId
+    })
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, tweets, "videos fetched successfully")
+        )
+})
+
 export {
     getChannelStats,
-    getChannelVideos
+    getChannelVideos,
+    getChannelTweets
 }
