@@ -16,6 +16,8 @@ import Tweet from "./TweetCompo/Tweet";
 import TweetContent from "./TweetCompo/tweetCard/TweetContent";
 import TweetHeader from "./TweetCompo/tweetCard/TweetHeader";
 import VideoUpload from "./video/videoUpload";
+import VideoCompo from "./video/DisplayVideo/VideoCard";
+
 export {
     Container,
     Header,
@@ -34,4 +36,6 @@ export {
     TweetContent,
     TweetHeader,
     VideoUpload,
+    VideoCompo,
+
 }

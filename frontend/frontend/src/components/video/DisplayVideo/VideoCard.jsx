@@ -3,7 +3,7 @@ import VideoPlayer from "./VidPlayer"
 import ChannelInfo from "./ChannelInfo";
 import CommentsSection from "./Comment";
 
-function VideoPage() {
+function VideoCompo() {
     const { id } = useParams();
 
     return (
@@ -34,4 +34,4 @@ function VideoPage() {
     );
 }
 
-export default VideoPage;
+export default VideoCompo;

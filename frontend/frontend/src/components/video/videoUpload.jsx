@@ -27,7 +27,6 @@ export default function VideoUpload() {
     videoFile: null,
     thumbnail: null,
   });
-  // const curUser = useSelector((state) => state.user.user.user._id);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

@@ -13,7 +13,6 @@ import {
   Post,
   Editpost,
   AllPost,
-  Addpost,
   Home,
   Signup,
   Addtweet,

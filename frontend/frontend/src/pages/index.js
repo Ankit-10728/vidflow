@@ -1,6 +1,5 @@
 import Login from "./LoginPage";
 import Signup from "./SignupPage";
-import Addpost from "./Addpost";
 import Home from "./HomePage";
 import Editpost from "./Editpage";
 import Post from "./Postpage";
@@ -11,7 +10,6 @@ import UploadPage from "./UploadVideoPage";
 export {
     Login,
     Signup,
-    Addpost,
     Home,
     Editpost,
     Post,
