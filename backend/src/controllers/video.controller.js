@@ -97,6 +97,9 @@ const deleteVideo = asyncHandler(async (req, res) => {
 const getVideo = asyncHandler(async (req, res) => {
     const { videoId } = req.params
     if (!videoId) throw new ApiError(404, "video id not found");
+    console.log("videoId:", videoId);
+    console.log(videoId);
+    console.log("type:", typeof videoId);
     const video = await Video.findById(videoId);
     if (!video) throw new ApiError(400, "video not found");
     return res
@@ -109,7 +112,8 @@ const getVideo = asyncHandler(async (req, res) => {
 const getAllVideosOfUser = asyncHandler(async (req, res) => {
     const { userId } = req.params
     if (!userId) throw new ApiError(400, "user does not exist")
-    const videos = await Video.find({ owner: userId })
+    const videos = await Video.find({ owner: userId }).sort({ createdAt: 1 })
+
     if (!videos) throw new ApiError(404, "videos not found")
 
     return res

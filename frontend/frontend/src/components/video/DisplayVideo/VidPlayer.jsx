@@ -8,6 +8,12 @@ function VideoPlayer() {
     const [play, setPlay] = useState(false);
     const dispatch = useDispatch();
     const { slug } = useParams();
+
+    console.log("this is from video card to display video ==================");
+    console.log(slug);
+    console.log(typeof (slug));
+
+
     useEffect(() => {
         dispatch(getVideoById(slug));
     }, [slug]);

@@ -2,9 +2,17 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Container, Logo, LogoutBtn } from '../index'
 import { Link, NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function Header() {
+    const navigate = useNavigate();
     const { isAuthenticated, isAuthChecked } = useSelector(state => state.user);
+    const user = useSelector((state) => state?.user?.user)
+
+    console.log(user);
+
+    console.log("ths is form header");
+
 
     const navItems = [
         {
@@ -69,6 +77,17 @@ function Header() {
                                 <LogoutBtn />
                             </li>
                         )}
+
+                        <li>
+                            <div className="w-12 h-12 rounded-full mx-5">
+                                <img
+                                    src={user?.avatar?.url}
+                                    alt="profile"
+                                    onClick={() => navigate(`/channel/${user?._id}`)}
+                                    className="w-full h-full rounded-full object-cover cursor-pointer border-2 border-white shadow-lg hover:scale-105 transition"
+                                />
+                            </div>
+                        </li>
                     </ul>
 
                 </nav>

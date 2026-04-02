@@ -22,6 +22,14 @@ const getChannelStats = asyncHandler(async (req, res) => {
                 as: "videos"
             }
         },
+        {
+            $lookup: {
+                from: "tweets",
+                localField: "_id",
+                foreignField: "owner",
+                as: "tweets"
+            }
+        },
 
         {
             $lookup: {
@@ -47,16 +55,19 @@ const getChannelStats = asyncHandler(async (req, res) => {
                 totalSubscriber: { $size: "$subscribers" },
                 totalPlaylist: { $size: "$playlists" },
                 totalViews: { $sum: "$videos.views" },
-                totalLikes: { $sum: "$videos.likes" }
+                totalLikes: { $sum: "$videos.likes" },
+                totalTweets: { $size: "$tweets" },
             }
         },
 
         {
             $project: {
                 fullname: 1,
+                username: 1,
                 avatar: 1,
                 coverImage: 1,
                 totalVideos: 1,
+                totalTweets: 1,
                 totalSubscriber: 1,
                 totalPlaylist: 1,
                 totalViews: 1,

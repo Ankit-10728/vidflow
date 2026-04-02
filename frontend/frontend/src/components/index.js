@@ -17,6 +17,11 @@ import TweetContent from "./TweetCompo/tweetCard/TweetContent";
 import TweetHeader from "./TweetCompo/tweetCard/TweetHeader";
 import VideoUpload from "./video/videoUpload";
 import VideoCompo from "./video/DisplayVideo/VideoCard";
+import SubscribeButton from "./video/DisplayVideo/SubscribeButton";
+import VideoCard from "./VideoCard";
+import VideoTab from "./channelCompo/VideoTab";
+import TweetCard from "./TweetCard";
+import TweetTab from "./channelCompo/TweetTab";
 
 export {
     Container,
@@ -37,5 +42,9 @@ export {
     TweetHeader,
     VideoUpload,
     VideoCompo,
-
+    SubscribeButton,
+    VideoCard,
+    VideoTab,
+    TweetCard,
+    TweetTab
 }
