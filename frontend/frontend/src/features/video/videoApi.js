@@ -1,7 +1,6 @@
 import api from "../../api/axios.api.js";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-
 export const uploadVideo = createAsyncThunk(
     "video/uploadVideo",
     async (formData, thunkApi) => {
@@ -22,8 +21,6 @@ export const getVideoById = createAsyncThunk(
     "video/getVideoById",
     async (videoId, thunkApi) => {
         try {
-            console.log("from api");
-
             const res = await api.get(`/video/${videoId}`);
             return res.data;
         } catch (error) {
@@ -50,19 +47,14 @@ export const getAllVideosOfUser = createAsyncThunk(
 
 export const getExploreVideos = createAsyncThunk(
     "video/getExploreVideos",
-    async (page = 1, thunkApi) => {
+    async ({ excludeIds = [], limit = 18 }, thunkApi) => {
         try {
-            const res = await api.get("/video/explore", {
-                params: {
-                    page,
-                    limit: 10,
-                },
+            const res = await api.post("/video/explore", {
+                limit,
+                excludeIds,
             });
 
-            return {
-                data: res.data.data,
-                page,
-            };
+            return res.data.data;
         } catch (error) {
             return thunkApi.rejectWithValue(
                 error.response?.data || { message: error.message }

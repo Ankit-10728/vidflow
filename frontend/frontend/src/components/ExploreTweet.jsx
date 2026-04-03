@@ -17,7 +17,7 @@ function TweetExplore() {
     const loading = useSelector((state) => state.tweet.loading.explore);
 
     useEffect(() => {
-        dispatch(getExploreTweets(1));
+        dispatch(getExploreTweets({ excludeIds: [] }));
     }, [dispatch]);
 
     console.log(tweets);
@@ -27,7 +27,8 @@ function TweetExplore() {
 
     const handleLoadMore = () => {
         if (hasMore && !loading) {
-            dispatch(getExploreTweets(explorePage + 1));
+            const excludeIds = tweets.map(t => t._id);
+            dispatch(getExploreTweets({ excludeIds }));
         }
     };
 
@@ -52,7 +53,7 @@ function TweetExplore() {
                     <div className="flex justify-center mt-4">
                         <button
                             onClick={handleLoadMore}
-                            className="px-4 py-2 bg-gray-700 rounded"
+                            className="px-4 py-2 bg-gray-700 rounded-4xl "
                         >
                             {loading ? "Loading..." : "Load More"}
                         </button>

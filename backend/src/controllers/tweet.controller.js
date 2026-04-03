@@ -4,6 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { User } from "../models/user.models.js";
 import getUserChannelProfileService from "../services/getUserInfoService.js"
+import mongoose from "mongoose";
 
 const createTweet = asyncHandler(async (req, res) => {
     if (!req.body) throw new ApiError(400, "request body is undefined")
@@ -105,30 +106,47 @@ const getUserTweets = asyncHandler(async (req, res) => {
 })
 
 const getExploreTweets = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 10 } = req.query;
+    const { limit = 10, excludeIds = [] } = req.body;
 
-    const pageNum = Number(page);
     const limitNum = Number(limit);
 
-    const total = await Tweet.countDocuments();
+    const excluded = excludeIds.map(id => new mongoose.Types.ObjectId(id));
 
-    const randomStart = Math.floor(Math.random() * total);
-
-    let tweets = await Tweet.find()
-        .populate("owner", "username avatar")
-        .skip((randomStart + (pageNum - 1) * limitNum) % total)
-        .limit(limitNum);
-
-    if (tweets.length < limitNum) {
-        const extra = await Tweet.find()
-            .populate("owner", "username avatar fullname ")
-            .limit(limitNum - tweets.length);
-
-        tweets = [...tweets, ...extra];
-    }
+    const tweets = await Tweet.aggregate([
+        {
+            $match: {
+                _id: { $nin: excluded },
+            },
+        },
+        {
+            $sample: { size: limitNum },
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+            },
+        },
+        { $unwind: "$owner" },
+        {
+            $project: {
+                content: 1,
+                createdAt: 1,
+                "owner.username": 1,
+                "owner.avatar": 1,
+                "owner.fullName": 1,
+                "owner._id": 1,
+            },
+        },
+    ]);
 
     return res.status(200).json(
-        new ApiResponse(200, tweets, "tweets fetched successfully")
+        new ApiResponse(200, {
+            tweets,
+            hasMore: tweets.length === limitNum
+        }, "tweets fetched successfully")
     );
 });
 

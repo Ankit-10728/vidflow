@@ -3,7 +3,7 @@ import { Video } from "../models/video.models.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js";
-
+import mongoose from "mongoose";
 
 const uploadVideo = asyncHandler(async (req, res) => {
 
@@ -122,36 +122,68 @@ const getAllVideosOfUser = asyncHandler(async (req, res) => {
             new ApiResponse(200, videos, "videos fetched successfully")
         )
 })
-const getExploreVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 10 } = req.query;
 
-    const pageNum = Number(page);
+
+const getExploreVideos = asyncHandler(async (req, res) => {
+    const { limit = 18, excludeIds = [] } = req.body;
+
     const limitNum = Number(limit);
 
-    const total = await Video.countDocuments();
+    const excluded = (excludeIds || [])
+        .filter(id => mongoose.Types.ObjectId.isValid(id))
+        .map(id => new mongoose.Types.ObjectId(id));
 
-    const randomStart = Math.floor(Math.random() * total);
-
-    let videos = await Video.find()
-        .skip((randomStart + (pageNum - 1) * limitNum) % total)
-        .limit(limitNum);
-
-    if (videos.length < limitNum) {
-        const remaining = limitNum - videos.length;
-
-        const extra = await Video.find().limit(remaining);
-        videos = [...videos, ...extra];
-    }
+    const videos = await Video.aggregate([
+        {
+            $match: {
+                _id: { $nin: excluded }
+            }
+        },
+        {
+            $sample: { size: limitNum }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner"
+            }
+        },
+        {
+            $unwind: {
+                path: "$owner",
+                preserveNullAndEmptyArrays: true
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                title: 1,
+                thumbnail: 1,
+                views: 1,
+                duration: 1,
+                createdAt: 1,
+                "owner._id": 1,
+                "owner.username": 1,
+                "owner.avatar": 1,
+                "owner.fullName": 1
+            }
+        }
+    ]);
 
     return res.status(200).json(
-        new ApiResponse(200, videos, "videos fetched successfully")
+        new ApiResponse(200, {
+            videos,
+            hasMore: videos.length === limitNum
+        }, "Explore videos fetched successfully")
     );
 });
-
 export {
     uploadVideo,
     deleteVideo,
     getVideo,
     getAllVideosOfUser,
-    getExploreVideos
+    getExploreVideos,
+
 }

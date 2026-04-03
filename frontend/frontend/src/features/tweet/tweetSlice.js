@@ -65,25 +65,22 @@ const tweetSlice = createSlice({
             .addCase(getExploreTweets.fulfilled, (state, action) => {
                 state.loading.explore = false;
 
-                const { data, page } = action.payload;
+                const tweets = action.payload?.tweets || [];
+                const hasMore = action.payload?.hasMore ?? true;
 
-                const existingIds = new Set(
-                    state.tweets.exploreTweets.map((t) => t._id)
-                );
+                const map = new Map();
 
-                const newTweets = data.filter((t) => !existingIds.has(t._id));
+                (state.tweets.exploreTweets || []).forEach(t => {
+                    map.set(t._id, t);
+                });
 
-                if (page === 1) {
-                    state.tweets.exploreTweets = newTweets;
-                } else {
-                    state.tweets.exploreTweets.push(...newTweets);
-                }
+                tweets.forEach(t => {
+                    map.set(t._id, t);
+                });
 
-                state.pagination.explorePage = page;
+                state.tweets.exploreTweets = Array.from(map.values());
 
-                if (newTweets.length < 10) {
-                    state.pagination.hasMore = false;
-                }
+                state.pagination.hasMore = hasMore;
             })
             .addCase(updateTweet.fulfilled, (state, action) => {
                 state.loading.update = false;

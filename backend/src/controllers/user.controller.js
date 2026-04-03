@@ -349,11 +349,6 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
     if (!id) throw new ApiError(400, "user not found");
-    console.log("this is from get user chanel profile");
-    console.log(id);
-
-
-
 
     const channel = await User.aggregate([
         {

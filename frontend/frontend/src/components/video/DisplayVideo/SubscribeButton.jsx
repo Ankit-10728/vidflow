@@ -12,21 +12,11 @@ function SubscribeButton({ userId, channelId }) {
         if (!userId || !channelId) return;
         const check = async () => {
             const temp = await dispatch(isSubscribed({ userId, channelId }));
-
-            console.log("this is form sub button");
-            console.log(temp.payload.data);
             setSubscribed(temp.payload.data)
-            console.log("ewghiuegt iergiosdgriuoers iosurgioeub");
-
         }
         check();
 
     }, [userId, channelId])
-
-
-
-    console.log("this is for checking the inital state of subscribe");
-    console.log(subscribed);
 
 
 

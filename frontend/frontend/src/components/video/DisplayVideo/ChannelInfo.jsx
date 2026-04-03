@@ -12,16 +12,13 @@ import { getLikedVideos } from "../../../features/like/likeApi";
 
 function ChannelInfo() {
     const video = useSelector((state) => state.video.videos.currentVideo);
-    console.log("this is the chennel info");
-    console.log(video);
+
     const owner = video?.owner;
     const videoId = video?._id
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user?.user?._id)
     const channelData = useSelector((state) => state.user?.channelProfile)
     const likescount = useSelector((state) => state?.like?.likedVideos || 3)
-    console.log("this is just for checking the total likes");
-    console.log(likescount);
 
 
     const channelId = channelData?._id
@@ -32,8 +29,6 @@ function ChannelInfo() {
         dispatch(getUserChannelProfile(owner));
     }, [dispatch, videoId]);
 
-    console.log("from channel info");
-    console.log(channelData);
     return (
         <>
             <div className="flex items-center justify-between bg-gray-800 p-4 rounded-xl">

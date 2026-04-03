@@ -86,23 +86,18 @@ export const getUserTweets = createAsyncThunk(
         }
     }
 );
-
 export const getExploreTweets = createAsyncThunk(
     "tweet/getExploreTweets",
-    async (page = 1, thunkApi) => {
+    async ({ excludeIds = [] }, thunkApi) => {
         try {
-            const res = await api.get("/tweet/explore", {
-                params: { page, limit: 10 },
+            const res = await api.post("/tweet/explore", {
+                limit: 18,
+                excludeIds,
             });
 
-            return {
-                data: res.data.data,
-                page,
-            };
+            return res.data.data;
         } catch (error) {
-            return thunkApi.rejectWithValue(
-                error.response?.data || { message: error.message }
-            );
+            return thunkApi.rejectWithValue(error.response?.data);
         }
     }
 );

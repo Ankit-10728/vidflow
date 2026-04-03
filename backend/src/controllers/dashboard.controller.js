@@ -9,7 +9,6 @@ import mongoose from "mongoose";
 const getChannelStats = asyncHandler(async (req, res) => {
     const { id: channelId } = req.params;
     if (!channelId || channelId.trim() === "") throw new ApiError(400, "channel field is required");
-    console.log("get chnnel stats reached");
 
     const channelStats = await User.aggregate([
         { $match: { _id: new mongoose.Types.ObjectId(channelId) } },

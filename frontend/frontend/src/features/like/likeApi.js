@@ -47,10 +47,6 @@ export const checkIsLiked = createAsyncThunk("like/checkLiked",
                 `/videos/checkLike/${videoId}/`,
                 { withCredentials: true }
             );
-            console.log(res.data.data);
-            console.log("from like api -=-=-=-==-=-=-=-=-=-==-");
-
-
             return { videoId, data: res.data.data };
         } catch (error) {
             return thunkApi.rejectWithValue(

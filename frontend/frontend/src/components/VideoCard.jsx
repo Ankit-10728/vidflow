@@ -13,10 +13,10 @@ function VideoCard({ thumbnail, title, views, time, duration, forfeed, owner, vi
     // console.log(videoId);
     // console.log(typeof (videoId));
     // console.log("this is from video card inside the video tab from dashboard");
-
+    const ownerId = owner?._id
     useEffect(() => {
         if (!owner || !videoId) return;
-        dispatch(getUserChannelProfile(owner));
+        dispatch(getUserChannelProfile(ownerId));
     }, [dispatch, videoId]);
 
     const handleClick = (videoId) => {

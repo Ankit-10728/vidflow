@@ -1,38 +1,39 @@
+import { getExploreVideos } from "../features/video/videoApi.js";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getExploreVideos } from "../features/video/videoApi";
 import { VideoCard } from "../components";
-import formatDuration from "../assets/timeConverter";
-import formatMonthYear from "../assets/dateConverter";
-import { nanoid } from "nanoid";
+import formatDuration from "../assets/timeConverter.js";
+import formatMonthYear from "../assets/dateConverter.js";
 
 function ExploreVideos() {
     const dispatch = useDispatch();
 
-    const { exploreVideos } = useSelector((state) => state.video.videos);
-    const { explorePage, hasMore } = useSelector(
-        (state) => state.video.pagination
-    );
+    const { exploreVideos = [] } = useSelector((state) => state.video.videos);
+    const { hasMore } = useSelector((state) => state.video.pagination);
     const loading = useSelector((state) => state.video.loading.explore);
 
+    console.log("explored videos ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^66");
+    console.log(exploreVideos);
+
     useEffect(() => {
-        dispatch(getExploreVideos(1));
+        dispatch(getExploreVideos({ excludeIds: [] }));
     }, [dispatch]);
 
     const handleLoadMore = () => {
         if (hasMore && !loading) {
-            dispatch(getExploreVideos(explorePage + 1));
+            const excludeIds = exploreVideos.map(v => v._id);
+            dispatch(getExploreVideos({ excludeIds }));
         }
     };
 
     return (
         <div className="p-4">
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 ">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 {exploreVideos.map((video) => (
                     <VideoCard
-                        key={nanoid()}
+                        key={video._id}
                         thumbnail={video?.thumbnail?.url}
                         title={video?.title}
                         views={video?.views}
@@ -45,7 +46,7 @@ function ExploreVideos() {
                 ))}
             </div>
 
-            {loading && explorePage === 1 && (
+            {loading && exploreVideos.length === 0 && (
                 <p className="text-center mt-4">Loading videos...</p>
             )}
 

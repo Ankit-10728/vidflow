@@ -4,7 +4,8 @@ import {
     getVideoById,
     getAllVideosOfUser,
     deleteVideo,
-    getExploreVideos
+    getExploreVideos,
+
 } from "./videoApi.js";
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
         myVideos: [],
         userVideos: [],
         currentVideo: null,
+
     },
 
     loading: {
@@ -21,6 +23,7 @@ const initialState = {
         fetchUserVideos: false,
         delete: false,
         explore: false,
+
     },
 
     error: {
@@ -72,18 +75,22 @@ const videoSlice = createSlice({
             .addCase(getExploreVideos.fulfilled, (state, action) => {
                 state.loading.explore = false;
 
-                const { data, page } = action.payload;
+                const { videos = [], hasMore = true } = action.payload || {};
 
-                if (page === 1) {
-                    state.videos.exploreVideos = data;
-                } else {
-                    state.videos.exploreVideos.push(...data);
-                }
-                state.pagination.explorePage = page;
-                if (data.length < 10) {
-                    state.pagination.hasMore = false;
-                }
+                const map = new Map();
+
+                (state.videos.exploreVideos || []).forEach(v => {
+                    map.set(v._id, v);
+                });
+
+                videos.forEach(v => {
+                    map.set(v._id, v);
+                });
+
+                state.videos.exploreVideos = Array.from(map.values());
+                state.pagination.hasMore = hasMore;
             })
+
 
             .addCase(getVideoById.fulfilled, (state, action) => {
                 state.loading.fetchOne = false;
@@ -100,8 +107,6 @@ const videoSlice = createSlice({
 
                 const id = action.payload.videoId;
                 state.videos.myVideos = state.videos.myVideos.filter((video) => video._id !== id);
-
-                // if currently opened video is deleted
                 if (state.videos.currentVideo?._id === id) {
                     state.videos.currentVideo = null;
                 }
@@ -156,6 +161,8 @@ const videoSlice = createSlice({
                 state.loading.explore = false;
                 state.error.explore = action.payload;
             })
+
+
     },
 });
 
