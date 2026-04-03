@@ -48,6 +48,29 @@ export const getAllVideosOfUser = createAsyncThunk(
     }
 );
 
+export const getExploreVideos = createAsyncThunk(
+    "video/getExploreVideos",
+    async (page = 1, thunkApi) => {
+        try {
+            const res = await api.get("/video/explore", {
+                params: {
+                    page,
+                    limit: 10,
+                },
+            });
+
+            return {
+                data: res.data.data,
+                page,
+            };
+        } catch (error) {
+            return thunkApi.rejectWithValue(
+                error.response?.data || { message: error.message }
+            );
+        }
+    }
+);
+
 export const deleteVideo = createAsyncThunk(
     "video/deleteVideo",
     async (videoId, thunkApi) => {

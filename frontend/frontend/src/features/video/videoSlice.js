@@ -4,10 +4,12 @@ import {
     getVideoById,
     getAllVideosOfUser,
     deleteVideo,
+    getExploreVideos
 } from "./videoApi.js";
 
 const initialState = {
     videos: {
+        exploreVideos: [],
         myVideos: [],
         userVideos: [],
         currentVideo: null,
@@ -18,20 +20,28 @@ const initialState = {
         fetchOne: false,
         fetchUserVideos: false,
         delete: false,
+        explore: false,
     },
 
     error: {
         upload: null,
         fetchOne: null,
         delete: null,
-        userVideos: null
+        userVideos: null,
+        explore: null,
     },
+
+    pagination: {
+        explorePage: 1,
+        hasMore: true,
+    }
 };
 
 const uploadThunks = [uploadVideo];
 const fetchOneThunks = [getVideoById];
 const fetchUserVideosThunks = [getAllVideosOfUser];
 const deleteThunks = [deleteVideo];
+const exploreThunks = [getExploreVideos];
 
 const isPending = (thunks) => (action) =>
     thunks.some((thunk) => action.type === thunk.pending.type);
@@ -56,6 +66,22 @@ const videoSlice = createSlice({
                 if (action.payload?.data) {
                     state.videos.myVideos.unshift(action.payload.data);
                     state.videos.currentVideo = action.payload?.data || action.payload;
+                }
+            })
+
+            .addCase(getExploreVideos.fulfilled, (state, action) => {
+                state.loading.explore = false;
+
+                const { data, page } = action.payload;
+
+                if (page === 1) {
+                    state.videos.exploreVideos = data;
+                } else {
+                    state.videos.exploreVideos.push(...data);
+                }
+                state.pagination.explorePage = page;
+                if (data.length < 10) {
+                    state.pagination.hasMore = false;
                 }
             })
 
@@ -119,7 +145,17 @@ const videoSlice = createSlice({
             .addMatcher(isRejected(deleteThunks), (state, action) => {
                 state.loading.delete = false;
                 state.error.delete = action.payload;
-            });
+            })
+
+            .addMatcher(isPending(exploreThunks), (state) => {
+                state.loading.explore = true;
+                state.error.explore = null;
+            })
+
+            .addMatcher(isRejected(exploreThunks), (state, action) => {
+                state.loading.explore = false;
+                state.error.explore = action.payload;
+            })
     },
 });
 

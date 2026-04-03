@@ -9,11 +9,8 @@ function Channel({ channel, videos, tweets }) {
     const userId = useSelector((state) => state?.user?.user?._id)
     console.log("thissi is channel 325u0349603603036u06u");
     console.log(channel);
-    console.log(videos);
     console.log(tweets);
-    console.log(userId);
     console.log(channelId);
-
 
     return (
         <div className="w-full bg-gray-900 text-white min-h-screen">
@@ -101,6 +98,9 @@ function Channel({ channel, videos, tweets }) {
                         </div>
                         <div>
                             {activeTab == "tweets" && <TweetTab tweets={tweets} />}
+                        </div>
+                        <div>
+                            {activeTab == "playlists" && <span className="w-full flex items-center text-lg "> Playlist not found...</span>}
                         </div>
                     </div>
                 </div>

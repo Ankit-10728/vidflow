@@ -12,14 +12,16 @@ import {
   Login,
   Post,
   Editpost,
-  AllPost,
+  ExploreVideosPage,
   Home,
   Signup,
   Addtweet,
   TweetPage,
   UploadPage,
-  ChannelPage
+  ChannelPage,
+  ExploreTweetsPage
 } from "./pages"
+
 
 const router = createBrowserRouter([
   {
@@ -53,12 +55,20 @@ const router = createBrowserRouter([
         path: '/all-posts',
         element: (
           <Protected authentication={true}>
-            <AllPost />
+            <ExploreVideosPage />
           </Protected>
         ),
         children: []
       },
-
+      {
+        path: '/all-tweets',
+        element: (
+          <Protected authentication={true}>
+            <ExploreTweetsPage />
+          </Protected>
+        ),
+        children: []
+      },
       {
         path: "tweet",
         element: <TweetLayout />,

@@ -1,20 +1,20 @@
 import { TweetCard } from "../../components"
+import formatMonthYear from "../../assets/dateConverter.js"
+import formatDuration from "../../assets/timeConverter.js";
 
 function TweetTab({ tweets }) {
     return (
         <div className="mt-4">
-            <div className="flex flex-col divide-y divide-gray-700">
-                {tweets.map((tweet) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[...tweets].reverse().map((tweet) => (
                     <TweetCard
-                        key={tweet.id}
-                        avatar={tweet.avatar}
-                        name={tweet.name}
-                        username={tweet.username}
-                        time={tweet.time}
+                        key={tweet._id}
+                        forfeed={false}
+                        tweetId={tweet?._id}
+                        owner={tweet.owner}
+                        time={formatMonthYear(tweet?.createdAt)}
                         content={tweet.content}
-                        image={tweet.image}
-                        likes={tweet.likes}
-                        comments={tweet.comments}
+
                     />
                 ))}
             </div>

@@ -104,10 +104,40 @@ const getUserTweets = asyncHandler(async (req, res) => {
         )
 })
 
+const getExploreTweets = asyncHandler(async (req, res) => {
+    const { page = 1, limit = 10 } = req.query;
+
+    const pageNum = Number(page);
+    const limitNum = Number(limit);
+
+    const total = await Tweet.countDocuments();
+
+    const randomStart = Math.floor(Math.random() * total);
+
+    let tweets = await Tweet.find()
+        .populate("owner", "username avatar")
+        .skip((randomStart + (pageNum - 1) * limitNum) % total)
+        .limit(limitNum);
+
+    if (tweets.length < limitNum) {
+        const extra = await Tweet.find()
+            .populate("owner", "username avatar fullname ")
+            .limit(limitNum - tweets.length);
+
+        tweets = [...tweets, ...extra];
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, tweets, "tweets fetched successfully")
+    );
+});
+
+
 export {
     createTweet,
     getTweet,
     deleteTweet,
     updateTweet,
+    getExploreTweets,
     getUserTweets
 }

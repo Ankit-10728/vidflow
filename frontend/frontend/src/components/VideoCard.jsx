@@ -8,14 +8,11 @@ function VideoCard({ thumbnail, title, views, time, duration, forfeed, owner, vi
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const channelData = useSelector((state) => state.user?.channelProfile)
-    console.log("this is from video card inside the video tab from dashboard");
-    console.log(channelData);
-    console.log(videoId);
-    console.log(typeof (videoId));
-
-    console.log("this is from video card inside the video tab from dashboard");
-
-
+    // console.log("this is from video card inside the video tab from dashboard");
+    // console.log(channelData);
+    // console.log(videoId);
+    // console.log(typeof (videoId));
+    // console.log("this is from video card inside the video tab from dashboard");
 
     useEffect(() => {
         if (!owner || !videoId) return;
@@ -27,7 +24,7 @@ function VideoCard({ thumbnail, title, views, time, duration, forfeed, owner, vi
     }
 
     return (
-        <div onClick={() => handleClick(videoId)}>
+        <div onClick={() => handleClick(videoId)} className="transition-all duration-300 hover:scale-[1.0] hover:shadow-xl hover:-translate-y-1 cursor-pointer ">
             <div className="flex flex-col gap-2 w-full mb-1">
                 <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-gray-800">
                     <img
@@ -42,7 +39,7 @@ function VideoCard({ thumbnail, title, views, time, duration, forfeed, owner, vi
                 </div>
                 <div className="flex gap-2">
                     {forfeed &&
-                        <div className="w-9 h-9 rounded-full bg-gray-600">
+                        <div className="w-13 h-13 rounded-full bg-gray-600 m-2">
                             <img className="w-full h-full rounded-full" src={channelData?.avatar?.url} alt="profile" />
                         </div>
                     }

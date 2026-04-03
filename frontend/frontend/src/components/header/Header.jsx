@@ -9,10 +9,6 @@ function Header() {
     const { isAuthenticated, isAuthChecked } = useSelector(state => state.user);
     const user = useSelector((state) => state?.user?.user)
 
-    console.log(user);
-
-    console.log("ths is form header");
-
 
     const navItems = [
         {
@@ -31,8 +27,13 @@ function Header() {
             active: !isAuthenticated
         },
         {
-            name: 'All Posts',
+            name: 'Explore Videos',
             slug: '/all-posts',
+            active: isAuthenticated
+        },
+        {
+            name: 'Explore Tweets',
+            slug: '/all-tweets',
             active: isAuthenticated
         },
         {
@@ -60,7 +61,7 @@ function Header() {
                                     <NavLink
                                         to={item.slug}
                                         className={({ isActive }) =>
-                                            `inline-block px-6 py-2 duration-200 rounded-full 
+                                            `inline-block px-6 py-2 duration-200 mx-1 rounded-full 
                             ${isActive
                                                 ? "bg-gray-700 text-pink-300"
                                                 : "hover:bg-gray-700"}`
@@ -78,16 +79,17 @@ function Header() {
                             </li>
                         )}
 
-                        <li>
+                        {user && <li>
                             <div className="w-12 h-12 rounded-full mx-5">
                                 <img
-                                    src={user?.avatar?.url}
+                                    src={user?.avatar?.url || "/profile-image.jpg"}
                                     alt="profile"
                                     onClick={() => navigate(`/channel/${user?._id}`)}
                                     className="w-full h-full rounded-full object-cover cursor-pointer border-2 border-white shadow-lg hover:scale-105 transition"
                                 />
                             </div>
                         </li>
+                        }
                     </ul>
 
                 </nav>

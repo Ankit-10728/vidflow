@@ -29,12 +29,13 @@ function Tweet() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-900">
-            <div className="w-full max-w-xl h-125 flex rounded-2xl overflow-hidden shadow-xl bg-linear-to-br from-gray-500 via-gray-700 to-gray-900 text-white p-5 flex-col justify-between">
+            <div className="w-full max-w-xl h-125 flex rounded-2xl overflow-hidden shadow-xl bg-linear-to-br from-gray-700 via-gray-800 to-gray-700 text-white p-4 flex-col justify-between">
                 <TweetHeader
                     username={tweet.owner.username}
                     fullname={tweet.owner.fullname}
                     url={tweet.owner.avatar.url}
                     date={tweet.tweet.createdAt}
+                    owner={tweet?.owner?._id}
                 />
                 <TweetContent
                     content={tweet.tweet.content}

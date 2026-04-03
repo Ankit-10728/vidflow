@@ -51,7 +51,7 @@ function SubscribeButton({ userId, channelId }) {
     return (
         <button
             onClick={handleSubscribe}
-            className={`px-8 py-2 font-medium text-xl rounded-full transition-all duration-300
+            className={`px-8 py-2 font-medium text-xl rounded-full transition-all duration-300 border-2 border-white
         ${subscribed
                     ? "bg-gray-700 text-white hover:bg-gray-600"
                     : "bg-white text-black hover:bg-gray-200"}

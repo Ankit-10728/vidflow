@@ -4,7 +4,8 @@ import {
     uploadVideo,
     deleteVideo,
     getVideo,
-    getAllVideosOfUser
+    getAllVideosOfUser,
+    getExploreVideos
 } from "../controllers/video.controller.js"
 import { upload } from "../middlewares/multer.middleware.js";
 
@@ -17,6 +18,8 @@ router.route("/upload").post(
         { name: "thumbnail", maxCount: 1 }
     ]),
     uploadVideo)
+
+router.route("/explore").get(getExploreVideos)
 router.route("/:userId/All-videos").get(getAllVideosOfUser)
 router.route("/:videoId/delete").delete(verifyJWT, deleteVideo)
 router.route("/:videoId").get(getVideo)

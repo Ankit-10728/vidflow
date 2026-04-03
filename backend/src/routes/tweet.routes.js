@@ -5,14 +5,16 @@ import {
     getTweet,
     deleteTweet,
     updateTweet,
+    getExploreTweets
 } from "../controllers/tweet.controller.js"
 
 const router = Router();
 router.use(verifyJWT);
 
 router.route('/create').post(createTweet);
-router.route('/:tweetId').get(getTweet)
+router.route('/explore').get(getExploreTweets);
 router.route('/:tweetId/delete').delete(deleteTweet);
 router.route('/:tweetId/update').patch(updateTweet);
+router.route('/:tweetId').get(getTweet)
 
 export default router

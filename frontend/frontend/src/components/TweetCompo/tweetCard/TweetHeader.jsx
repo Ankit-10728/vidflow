@@ -1,29 +1,41 @@
+import { useSelector } from "react-redux";
+import formatMonthYear from "../../../assets/dateConverter";
+import { SubscribeButton } from "../../../components"
+import { useNavigate } from "react-router-dom";
+
 function TweetHeader({
     url = "",
     username = "Unknown",
     fullname = "",
-    date = ""
+    date = "",
+    owner
 }) {
+    const navigate = useNavigate();
+    const userId = useSelector((state) => state.user?.user?._id)
     console.log("from tweet header")
+    console.log(userId);
+
     console.log(url + username)
     return (
-        <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
+        <div className="flex justify-between items-center p-4 rounded-4xl">
+            <div className="flex items-center gap-4 cursor-pointer" onClick={() => navigate(`/channel/${owner}`)}>
                 <img
                     src={url}
                     alt="avatar"
-                    className="w-12 h-12 rounded-full object-cover ring-2 ring-gray-300"
+                    className="w-15 h-15 rounded-full object-cover ring-2 ring-gray-300"
                 />
-                <div>
-                    <h3 className="font-semibold text-3xl">{username}</h3>
-                    <h3 className="font-thin text-xl">{fullname}</h3>
-                    <p className="text-sm opacity-70">{date}</p>
+                <div >
+                    <h3 className="font-semibold text-2xl">{fullname}</h3>
+                    <span>
+                        <h3 className="font-thin text-lg">@{username}</h3>
+                        <p className="text-sm opacity-70">{formatMonthYear(date)}</p>
+
+                    </span>
                 </div>
             </div>
 
-            <button className="px-5 py-2 rounded-full bg-white/20">
-                Subscribe
-            </button>
+
+            <SubscribeButton userId={userId} channelId={owner} />
         </div>
     );
 }

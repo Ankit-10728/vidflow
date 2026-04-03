@@ -22,7 +22,8 @@ import VideoCard from "./VideoCard";
 import VideoTab from "./channelCompo/VideoTab";
 import TweetCard from "./TweetCard";
 import TweetTab from "./channelCompo/TweetTab";
-
+import ExploreVideos from "./ExploreVideos";
+import TweetExplore from "./ExploreTweet";
 export {
     Container,
     Header,
@@ -46,5 +47,7 @@ export {
     VideoCard,
     VideoTab,
     TweetCard,
-    TweetTab
+    TweetTab,
+    ExploreVideos,
+    TweetExplore,
 }

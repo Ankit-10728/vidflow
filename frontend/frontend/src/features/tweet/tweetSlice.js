@@ -4,14 +4,20 @@ import {
     updateTweet,
     deleteTweet,
     getTweet,
-    createTweet
+    createTweet,
+    getExploreTweets
 } from "./tweetApi";
 
 const initialState = {
     tweets: {
         myTweets: [],
         userTweets: [],
+        exploreTweets: [],
         curTweet: null
+    },
+    pagination: {
+        explorePage: 1,
+        hasMore: true,
     },
 
     loading: {
@@ -33,6 +39,7 @@ const uploadThunks = [createTweet];
 const updateThunks = [updateTweet];
 const fetchUserTweetsThunks = [getUserTweets, getTweet];
 const deleteThunks = [deleteTweet];
+const exploreTweetThunks = [getExploreTweets];
 
 const isPending = (thunks) => (action) =>
     thunks.some((thunk) => action.type === thunk.pending.type);
@@ -55,6 +62,29 @@ const tweetSlice = createSlice({
                 }
             })
 
+            .addCase(getExploreTweets.fulfilled, (state, action) => {
+                state.loading.explore = false;
+
+                const { data, page } = action.payload;
+
+                const existingIds = new Set(
+                    state.tweets.exploreTweets.map((t) => t._id)
+                );
+
+                const newTweets = data.filter((t) => !existingIds.has(t._id));
+
+                if (page === 1) {
+                    state.tweets.exploreTweets = newTweets;
+                } else {
+                    state.tweets.exploreTweets.push(...newTweets);
+                }
+
+                state.pagination.explorePage = page;
+
+                if (newTweets.length < 10) {
+                    state.pagination.hasMore = false;
+                }
+            })
             .addCase(updateTweet.fulfilled, (state, action) => {
                 state.loading.update = false;
                 state.tweets.myTweets = state.tweets.myTweets.map((tweet) => (tweet._id == action.payload.data._id) ? action.payload.data : tweet)
@@ -116,7 +146,17 @@ const tweetSlice = createSlice({
             .addMatcher(isRejected(deleteThunks), (state, action) => {
                 state.loading.delete = false;
                 state.error.delete = action.payload;
-            });
+            })
+
+            .addMatcher(isPending(exploreTweetThunks), (state) => {
+                state.loading.explore = true;
+                state.error.explore = null;
+            })
+
+            .addMatcher(isRejected(exploreTweetThunks), (state, action) => {
+                state.loading.explore = false;
+                state.error.explore = action.payload;
+            })
     },
 });
 

@@ -3,20 +3,22 @@ import Signup from "./SignupPage";
 import Home from "./HomePage";
 import Editpost from "./Editpage";
 import Post from "./Postpage";
-import AllPost from "./Allpost";
+import ExploreVideosPage from "./ExploreVideosPage";
 import Addtweet from "./AddtweetPage";
 import TweetPage from "./TweetPage";
 import UploadPage from "./UploadVideoPage";
 import ChannelPage from "./ChannelPage";
+import ExploreTweetsPage from "./ExploreTweetsPage";
 export {
     Login,
     Signup,
     Home,
     Editpost,
     Post,
-    AllPost,
+    ExploreVideosPage,
     Addtweet,
     TweetPage,
     UploadPage,
-    ChannelPage
+    ChannelPage,
+    ExploreTweetsPage,
 }

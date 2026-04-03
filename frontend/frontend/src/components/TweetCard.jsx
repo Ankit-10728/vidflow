@@ -1,55 +1,70 @@
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getUserChannelProfile } from "../features/user/userApi";
+import { useNavigate } from "react-router-dom";
+import ShareButton from "./video/DisplayVideo/ShareButon";
+
 function TweetCard({
-    avatar,
-    name,
-    username,
+    owner,
+    tweetId,
     time,
+    forfeed,
     content,
-    image,
-    likes,
-    comments
+    width = "w-1/2",
+    height = "min-h-52"
 }) {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const channelData = useSelector((state) => state.user?.channelProfile)
+
+    useEffect(() => {
+        if (!owner || !tweetId) return;
+        dispatch(getUserChannelProfile(owner));
+    }, [dispatch, tweetId, owner]);
+
+    const handleClick = (tweetId) => {
+        navigate(`/tweet/${tweetId}`)
+    }
+
     return (
-        <div className="flex gap-3 p-4 border-b border-gray-700 hover:bg-gray-800 transition">
+        <div >
 
-            {/* Avatar */}
-            <img
-                src={avatar}
-                alt="user"
-                className="w-10 h-10 rounded-full object-cover"
-            />
+            <div className={`w-full  p-2 pt-0 cursor-pointer`}>
+                <div className="flex gap-3 p-4 pb-6 pr-6  border-b border-gray-500  bg-gray-900 transition rounded-2xl">
 
-            {/* Content */}
-            <div className="flex flex-col w-full">
+                    <img
+                        onClick={() => navigate(`/channel/${owner}`)}
+                        src={channelData?.avatar?.url}
+                        alt="user"
+                        className="w-13 h-13 rounded-full object-cover"
+                    />
 
-                {/* Header */}
-                <div className="flex items-center gap-2 text-sm">
-                    <span className="font-semibold">{name}</span>
-                    <span className="text-gray-400">@{username}</span>
-                    <span className="text-gray-500">· {time}</span>
-                </div>
+                    <div className="flex flex-col w-full">
 
-                {/* Tweet Text */}
-                <p className="text-sm mt-1 whitespace-pre-wrap">
-                    {content}
-                </p>
+                        <div className="flex items-center justify-between gap-3 text-lg mb-3">
+                            <span onClick={() => navigate(`/channel/${owner}`)}>
+                                <span className="text-gray-300 font-bold">@{channelData?.username}</span>
+                                <span className="text-gray-500">· {time}</span>
+                            </span>
+                            <span>
+                                <span className="flex justify-between text-gray-400 text-lg">
+                                    <ShareButton url={`http://localhost:8000/tweet/${tweetId}`} />
+                                </span>
+                            </span>
+                        </div>
 
-                {/* Optional Image */}
-                {image && (
-                    <div className="mt-2 rounded-xl overflow-hidden">
-                        <img
-                            src={image}
-                            alt="tweet"
-                            className="w-full max-h-80 object-cover"
-                        />
+                        <div
+                            onClick={() => handleClick(tweetId)}
+                            className={`text-xl mt-1  min-h-52 whitespace-pre-wrap wrap-break-word bg-gray-700 rounded-3xl p-4 overflow-hidden  `}>
+
+                            <div className="p-3 text-2xl">{content.length > 140 ? content.substring(0, 140) : content}{content.length > 140 && <span className="text-lg text-blue-300">.......load more</span>} </div>
+
+
+                        </div>
+
                     </div>
-                )}
-
-                {/* Actions */}
-                <div className="flex justify-between mt-3 text-gray-400 text-sm max-w-md">
-                    <span>💬 {comments}</span>
-                    <span>❤️ {likes}</span>
-                    <span>🔁</span>
-                    <span>📤</span>
                 </div>
             </div>
         </div>

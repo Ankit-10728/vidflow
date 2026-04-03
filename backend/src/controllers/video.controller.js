@@ -122,10 +122,36 @@ const getAllVideosOfUser = asyncHandler(async (req, res) => {
             new ApiResponse(200, videos, "videos fetched successfully")
         )
 })
+const getExploreVideos = asyncHandler(async (req, res) => {
+    const { page = 1, limit = 10 } = req.query;
+
+    const pageNum = Number(page);
+    const limitNum = Number(limit);
+
+    const total = await Video.countDocuments();
+
+    const randomStart = Math.floor(Math.random() * total);
+
+    let videos = await Video.find()
+        .skip((randomStart + (pageNum - 1) * limitNum) % total)
+        .limit(limitNum);
+
+    if (videos.length < limitNum) {
+        const remaining = limitNum - videos.length;
+
+        const extra = await Video.find().limit(remaining);
+        videos = [...videos, ...extra];
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, videos, "videos fetched successfully")
+    );
+});
 
 export {
     uploadVideo,
     deleteVideo,
     getVideo,
     getAllVideosOfUser,
+    getExploreVideos
 }
