@@ -16,7 +16,6 @@ function VideoCompo() {
     const dispatch = useDispatch();
     const { exploreVideos = [] } = useSelector((state) => state?.video?.videos)
 
-
     useEffect(() => {
         dispatch(getExploreVideos({ excludeIds: [], limit: 10 }));
     }, [dispatch, videoId])
@@ -24,11 +23,7 @@ function VideoCompo() {
 
     return (
         <div className="h-screen overflow-hidden bg-gray-900 text-gray-200">
-
-
             <div className="flex w-full gap-4 h-full">
-
-                {/* LEFT SIDE */}
                 <div className="flex-[0.70] min-h-0 overflow-y-auto custom-scrollbar space-y-4 pr-2 p-4">
                     <VideoPlayer />
                     <ChannelInfo />

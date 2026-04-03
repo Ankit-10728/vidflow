@@ -470,11 +470,6 @@ const isSubscribed = asyncHandler(async (req, res) => {
         channel: new mongoose.Types.ObjectId(channelId)
     })
 
-    console.log("this is from user controller for checking is subscribed");
-    console.log(sub);
-
-
-
     return res
         .status(200)
         .json(

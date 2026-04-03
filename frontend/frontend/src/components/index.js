@@ -24,6 +24,9 @@ import TweetCard from "./TweetCard";
 import TweetTab from "./channelCompo/TweetTab";
 import ExploreVideos from "./ExploreVideos";
 import TweetExplore from "./ExploreTweet";
+import LoaderProgress from "./LoaderProgress";
+import BasicSpinner from "./BasicLoader";
+import ContentLoader from "./ContentLoader";
 export {
     Container,
     Header,
@@ -49,6 +52,8 @@ export {
     TweetCard,
     TweetTab,
     ExploreVideos,
-
     TweetExplore,
+    LoaderProgress,
+    BasicSpinner,
+    ContentLoader
 }
