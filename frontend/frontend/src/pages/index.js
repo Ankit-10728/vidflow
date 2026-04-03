@@ -9,6 +9,7 @@ import TweetPage from "./TweetPage";
 import UploadPage from "./UploadVideoPage";
 import ChannelPage from "./ChannelPage";
 import ExploreTweetsPage from "./ExploreTweetsPage";
+import NotFound from "./PageNotFound";
 export {
     Login,
     Signup,
@@ -21,4 +22,5 @@ export {
     UploadPage,
     ChannelPage,
     ExploreTweetsPage,
+    NotFound
 }

@@ -19,7 +19,8 @@ import {
   TweetPage,
   UploadPage,
   ChannelPage,
-  ExploreTweetsPage
+  ExploreTweetsPage,
+  NotFound
 } from "./pages"
 
 
@@ -128,6 +129,11 @@ const router = createBrowserRouter([
           </Protected>
         ),
         children: []
+      },
+      {
+        path: '*',
+        element: <NotFound />,
+
       }
     ]
   }

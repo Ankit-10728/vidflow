@@ -73,11 +73,6 @@ function Header() {
                             ) : null
                         )}
 
-                        {isAuthenticated && (
-                            <li>
-                                <LogoutBtn />
-                            </li>
-                        )}
 
                         {user && <li>
                             <div className="w-12 h-12 rounded-full mx-5">
