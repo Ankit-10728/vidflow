@@ -2,12 +2,10 @@ import Home01 from "./Home01";
 import HomeBottom from "./HomeBottom";
 import Home02 from "./Home02";
 import HomeTop from "./HomeTop";
-import { LoaderProgress, ContentLoader, BasicSpinner } from "../../components"
+
 function Home() {
     return (
         <div>
-            <ContentLoader />
-            <BasicSpinner />
             <section className="bg-[#302c42] overflow-hidden pb-9">
                 <HomeTop />
                 <Home01 />

@@ -1,21 +1,20 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function DeleteButton({ onDelete, label = "Delete" }) {
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const loading = useSelector((state) => state.video.loading.delete)
     const handleDelete = async () => {
         const confirmDelete = window.confirm("Are you sure you want to delete?");
         if (!confirmDelete) return;
 
         try {
-            setLoading(true);
+
             await onDelete();
-            navigate("/")
+            navigate("/all-posts")
         } catch (err) {
             console.error(err);
-        } finally {
-            setLoading(false);
         }
     };
 

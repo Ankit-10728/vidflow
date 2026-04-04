@@ -3,8 +3,7 @@ function BasicSpinner() {
     return (
         <>
             <div
-
-                className="flex flex-col items-center gap-4 p-6 bg-gray-50 dark:bg-zinc-900 rounded-xl"
+                className="flex flex-col items-center justify-center gap-4 p-6 bg-gray-700  rounded-xl"
             >
                 <h4 className="text-sm font-medium text-gray-900 dark:text-white">
                     hold tight..

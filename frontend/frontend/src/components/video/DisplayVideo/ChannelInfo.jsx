@@ -9,9 +9,11 @@ import DeleteButton from "./DeleteButton";
 import { deleteVideo } from "../../../features/video/videoApi";
 import SubscribeButton from "./SubscribeButton";
 import { getLikedVideos } from "../../../features/like/likeApi";
+import { BasicSpinner } from "../../../components"
 
 function ChannelInfo() {
     const video = useSelector((state) => state.video.videos.currentVideo);
+    const loading = useSelector((state) => state.user.loading.channelProfile)
 
     const owner = video?.owner;
     const videoId = video?._id
@@ -30,45 +32,49 @@ function ChannelInfo() {
     }, [dispatch, videoId]);
 
     return (
-        <>
-            <div className="flex items-center justify-between bg-gray-800 p-4 rounded-xl">
-                <div className="flex items-center gap-3">
-                    <img
-                        src={channelData?.avatar?.url}
-                        alt=""
-                        className="w-14 h-14 rounded-full"
-                    />
-                    <div className="m-3">
-                        <div className="flex">
-                            <h2 className="text-2xl mr-4 font-bold">{channelData?.fullname}</h2>
+        <>{!loading ?
+            <>
+                <div className="flex items-center justify-between bg-gray-800 p-4 rounded-xl">
+                    <div className="flex items-center gap-3">
+                        <img
+                            src={channelData?.avatar?.url}
+                            alt=""
+                            className="w-14 h-14 rounded-full"
+                        />
+                        <div className="m-3">
+                            <div className="flex">
+                                <h2 className="text-2xl mr-4 font-bold">{channelData?.fullname}</h2>
+                            </div>
+                            <p className="text-lg font-medium text-gray-400 mt-2"> {channelData?.subscriberCount} Subscribers</p>
                         </div>
-                        <p className="text-lg font-medium text-gray-400 mt-2"> {channelData?.subscriberCount} Subscribers</p>
+
+
+                        <SubscribeButton
+                            userId={user} channelId={channelId}
+                        />
                     </div>
 
+                    <div className="flex font-bold items-center gap-4 text-lg">
 
-                    <SubscribeButton
-                        userId={user} channelId={channelId}
-                    />
-                </div>
+                        <LikeButton id={videoId} initialCount={likescount.length} />
 
-                <div className="flex font-bold items-center gap-4 text-lg">
+                        <ShareButton url={`http://localhost:8000/video/${videoId}`} />
 
-                    <LikeButton id={videoId} initialCount={likescount.length} />
+                        {
+                            (user == owner) &&
+                            <DeleteButton onDelete={async () => {
+                                await dispatch(deleteVideo(videoId))
+                            }} />
+                        }
 
-                    <ShareButton url={`http://localhost:8000/video/${videoId}`} />
-
-                    {
-                        (user == owner) &&
-                        <DeleteButton onDelete={async () => {
-                            await dispatch(deleteVideo(videoId))
-                        }} />
-                    }
+                    </div>
 
                 </div>
 
-            </div>
-
-            <VideoDescription des={video?.description} views={0} date={video?.createdAt} />
+                <VideoDescription des={video?.description} views={0} date={video?.createdAt} />
+            </>
+            : <BasicSpinner />
+        }
         </>
     );
 }

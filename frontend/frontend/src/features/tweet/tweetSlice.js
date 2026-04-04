@@ -59,6 +59,7 @@ const tweetSlice = createSlice({
 
                 if (action.payload?.data) {
                     state.tweets.myTweets.unshift(action.payload.data);
+                    state.tweets.curTweet = action.payload.data
                 }
             })
 

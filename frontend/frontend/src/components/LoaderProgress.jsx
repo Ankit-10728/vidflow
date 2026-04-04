@@ -13,7 +13,7 @@ function LoaderProgress() {
 
     return (
 
-        <div className="relative">
+        <div className="relative h-screen">
             <svg
                 className="w-20 h-20 transform -rotate-90"
                 viewBox="0 0 100 100"

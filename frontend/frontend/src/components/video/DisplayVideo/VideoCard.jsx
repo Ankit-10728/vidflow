@@ -3,7 +3,7 @@ import VideoPlayer from "./VidPlayer"
 import ChannelInfo from "./ChannelInfo";
 import CommentsSection from "./Comment";
 import { useDispatch, useSelector } from "react-redux";
-import { VideoCard } from "../../../components"
+import { VideoCard, ContentLoader } from "../../../components"
 import formatDuration from "../../../assets/timeConverter";
 import formatMonthYear from "../../../assets/dateConverter";
 import { useEffect } from "react";
@@ -15,6 +15,7 @@ function VideoCompo() {
 
     const dispatch = useDispatch();
     const { exploreVideos = [] } = useSelector((state) => state?.video?.videos)
+    const loading = useSelector((state) => state.video?.loading?.explore)
 
     useEffect(() => {
         dispatch(getExploreVideos({ excludeIds: [], limit: 10 }));
@@ -22,39 +23,44 @@ function VideoCompo() {
 
 
     return (
-        <div className="h-screen overflow-hidden bg-gray-900 text-gray-200">
-            <div className="flex w-full gap-4 h-full">
-                <div className="flex-[0.70] min-h-0 overflow-y-auto custom-scrollbar space-y-4 pr-2 p-4">
-                    <VideoPlayer />
-                    <ChannelInfo />
-                    <CommentsSection />
-                </div>
+        <>
+            {
+                !loading ?
+                    <div className="h-screen overflow-hidden bg-gray-900 text-gray-200">
+                        <div className="flex w-full gap-4 h-full">
+                            <div className="flex-[0.70] min-h-0 overflow-y-auto custom-scrollbar space-y-4 pr-2 p-4">
+                                <VideoPlayer />
+                                <ChannelInfo />
+                                <CommentsSection />
+                            </div>
 
-                <div className="hidden lg:block flex-[0.30] min-h-0 overflow-y-auto pr-2 custom-scrollbar  scrollbar-thin scrollbar-thumb-gray-700">
-                    <p className="text-gray-400">Recommended Videos</p>
+                            <div className="hidden lg:block flex-[0.30] min-h-0 overflow-y-auto pr-2 custom-scrollbar  scrollbar-thin scrollbar-thumb-gray-700">
+                                <p className="text-gray-400">Recommended Videos</p>
 
 
-                    <div className="grid grid-cols-1 p-2">
-                        {[...exploreVideos].map((video) => (
-                            <VideoCard
-                                key={video._id}
-                                thumbnail={video?.thumbnail?.url}
-                                title={video?.title}
-                                views={video?.views}
-                                time={formatMonthYear(video?.time)}
-                                duration={formatDuration(video?.duration)}
-                                forfeed={true}
-                                owner={video?.owner}
-                                videoId={video?._id}
-                            />
-                        ))}
-                    </div>
-                </div>
+                                <div className="grid grid-cols-1 p-2">
+                                    {[...exploreVideos].map((video) => (
+                                        <VideoCard
+                                            key={video._id}
+                                            thumbnail={video?.thumbnail?.url}
+                                            title={video?.title}
+                                            views={video?.views}
+                                            time={formatMonthYear(video?.time)}
+                                            duration={formatDuration(video?.duration)}
+                                            forfeed={true}
+                                            owner={video?.owner}
+                                            videoId={video?._id}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
 
-            </div>
+                        </div>
 
-        </div >
-
+                    </div >
+                    : <ContentLoader />
+            }
+        </>
 
     );
 }
