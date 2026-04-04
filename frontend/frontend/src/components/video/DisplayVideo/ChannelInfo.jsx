@@ -10,18 +10,18 @@ import { deleteVideo } from "../../../features/video/videoApi";
 import SubscribeButton from "./SubscribeButton";
 import { getLikedVideos } from "../../../features/like/likeApi";
 import { BasicSpinner } from "../../../components"
+import { useNavigate } from "react-router-dom";
 
 function ChannelInfo() {
     const video = useSelector((state) => state.video.videos.currentVideo);
     const loading = useSelector((state) => state.user.loading.channelProfile)
-
+    const naviagate = useNavigate();
     const owner = video?.owner;
     const videoId = video?._id
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user?.user?._id)
     const channelData = useSelector((state) => state.user?.channelProfile)
     const likescount = useSelector((state) => state?.like?.likedVideos || 3)
-
 
     const channelId = channelData?._id
 
@@ -34,21 +34,25 @@ function ChannelInfo() {
     return (
         <>{!loading ?
             <>
-                <div className="flex items-center justify-between bg-gray-800 p-4 rounded-xl">
+                <div className="flex items-center justify-between bg-gray-800 p-4 rounded-xl cursor-pointer">
                     <div className="flex items-center gap-3">
-                        <img
-                            src={channelData?.avatar?.url}
-                            alt=""
-                            className="w-14 h-14 rounded-full"
-                        />
-                        <div className="m-3">
-                            <div className="flex">
-                                <h2 className="text-2xl mr-4 font-bold">{channelData?.fullname}</h2>
+                        <div className="flex items-center gap-3" onClick={() => naviagate(`/channel/${owner}`)}>
+
+
+                            <img
+                                src={channelData?.avatar?.url}
+                                alt=""
+                                className="w-14 h-14 rounded-full"
+                            />
+                            <div className="m-3">
+                                <div className="flex">
+                                    <h2 className="text-2xl mr-4 font-bold">{channelData?.fullname}</h2>
+                                </div>
+                                <p className="text-lg font-medium text-gray-400 mt-2"> {channelData?.subscriberCount} Subscribers</p>
                             </div>
-                            <p className="text-lg font-medium text-gray-400 mt-2"> {channelData?.subscriberCount} Subscribers</p>
+
+
                         </div>
-
-
                         <SubscribeButton
                             userId={user} channelId={channelId}
                         />

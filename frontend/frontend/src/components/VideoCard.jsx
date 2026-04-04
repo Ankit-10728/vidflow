@@ -39,7 +39,7 @@ function VideoCard({ thumbnail, title, views, time, duration, forfeed, owner, vi
                 </div>
                 <div className="flex gap-2">
                     {forfeed &&
-                        <div className="w-13 h-13 rounded-full bg-gray-600 m-2">
+                        <div className="w-13 h-13 rounded-full bg-gray-600 m-2 shrink-0">
                             <img className="w-full h-full rounded-full" src={channelData?.avatar?.url} alt="profile" />
                         </div>
                     }
