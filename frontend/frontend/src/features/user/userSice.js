@@ -12,6 +12,7 @@ import {
     getWatchHistory,
     refreshAccessToken
 } from "./userApi";
+import { toast } from "react-toastify";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -69,11 +70,13 @@ const userSlice = createSlice({
                 state.loading.auth = false;
                 state.user = action.payload.data.user;
                 state.isAuthenticated = true;
+                toast.success("Login successful ✅");
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.loading.auth = false;
                 state.user = action.payload.data;
                 state.isAuthenticated = false;
+                toast.success("User Registered Successfully ^_^");
             })
 
             .addCase(logoutUser.fulfilled, (state) => {
@@ -82,6 +85,7 @@ const userSlice = createSlice({
                 state.isAuthenticated = false;
                 state.playlists = [];
                 state.watchHistory = [];
+                toast.success("Logged out 👋");
             })
 
             .addCase(refreshAccessToken.fulfilled, (state) => {
@@ -108,25 +112,30 @@ const userSlice = createSlice({
             .addCase(updateAccountDetails.fulfilled, (state, action) => {
                 state.loading.profile = false;
                 state.user = action.payload.data;
+                toast.success("Profile updated ✏️");
             })
 
             .addCase(updateUserAvatar.fulfilled, (state, action) => {
                 state.loading.profile = false;
                 state.user.avatar = action.payload.data.avatar;
+                toast.success("Profile updated ✏️");
             })
 
             .addCase(updateCoverImage.fulfilled, (state, action) => {
                 state.loading.profile = false;
                 state.user.coverImage = action.payload.data;
+                toast.success("Profile updated ✏️");
             })
 
             .addCase(changePassword.fulfilled, (state) => {
                 state.loading.profile = false;
+                toast.success("Password changed ♨️");
             })
 
             .addCase(getUserChannelProfile.fulfilled, (state, action) => {
                 state.loading.channel = false;
                 state.channelProfile = action.payload.data;
+
             })
 
             .addCase(getUserPlaylists.fulfilled, (state, action) => {
