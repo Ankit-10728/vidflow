@@ -100,7 +100,12 @@ const getVideo = asyncHandler(async (req, res) => {
     console.log("videoId:", videoId);
     console.log(videoId);
     console.log("type:", typeof videoId);
-    const video = await Video.findById(videoId);
+    // const video = await Video.findById(videoId);
+    const video = await Video.findByIdAndUpdate(
+        videoId,
+        { $inc: { views: 1 } },
+        { new: true }
+    );
     if (!video) throw new ApiError(400, "video not found");
     return res
         .status(200)
@@ -179,11 +184,12 @@ const getExploreVideos = asyncHandler(async (req, res) => {
         }, "Explore videos fetched successfully")
     );
 });
+
+
 export {
     uploadVideo,
     deleteVideo,
     getVideo,
     getAllVideosOfUser,
     getExploreVideos,
-
 }

@@ -13,9 +13,6 @@ function ExploreVideos() {
     const { hasMore } = useSelector((state) => state.video.pagination);
     const loading = useSelector((state) => state.video.loading.explore);
 
-    console.log("explored videos ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^66");
-    console.log(exploreVideos);
-
     useEffect(() => {
         dispatch(getExploreVideos({ excludeIds: [] }));
     }, [dispatch]);

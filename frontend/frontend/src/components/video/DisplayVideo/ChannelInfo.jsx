@@ -75,7 +75,7 @@ function ChannelInfo() {
 
                 </div>
 
-                <VideoDescription des={video?.description} views={0} date={video?.createdAt} />
+                <VideoDescription des={video?.description} views={video?.views} date={video?.createdAt} />
             </>
             : <BasicSpinner />
         }
