@@ -7,6 +7,7 @@ import {
     createTweet,
     getExploreTweets
 } from "./tweetApi";
+import { toast } from "react-toastify";
 
 const initialState = {
     tweets: {
@@ -60,6 +61,8 @@ const tweetSlice = createSlice({
                 if (action.payload?.data) {
                     state.tweets.myTweets.unshift(action.payload.data);
                     state.tweets.curTweet = action.payload.data
+                    toast.success("Tweet Posted 📤");
+
                 }
             })
 
@@ -82,10 +85,12 @@ const tweetSlice = createSlice({
                 state.tweets.exploreTweets = Array.from(map.values());
 
                 state.pagination.hasMore = hasMore;
+                toast.success("Explore Tweets 🌚");
             })
             .addCase(updateTweet.fulfilled, (state, action) => {
                 state.loading.update = false;
                 state.tweets.myTweets = state.tweets.myTweets.map((tweet) => (tweet._id == action.payload.data._id) ? action.payload.data : tweet)
+                toast.success("Tweet updated 🖋️");
             })
 
             .addCase(getUserTweets.fulfilled, (state, action) => {
@@ -104,6 +109,7 @@ const tweetSlice = createSlice({
 
                 const id = action.payload.tweetId;
                 state.tweets.myTweets = state.tweets.myTweets.filter((tweet) => tweet._id !== id);
+                toast.success("Tweet Deleted 🚮");
             })
 
             .addMatcher(isPending(uploadThunks), (state) => {
