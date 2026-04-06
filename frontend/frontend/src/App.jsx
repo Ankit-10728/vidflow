@@ -3,7 +3,7 @@ import { Header, Footer, Sidebar } from "./components";
 import { fetchCurrentUser } from "./features/user/userApi";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 
 function App() {
