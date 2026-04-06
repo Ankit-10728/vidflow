@@ -69,6 +69,7 @@ const videoSlice = createSlice({
                 if (action.payload?.data) {
                     state.videos.myVideos.unshift(action.payload.data);
                     state.videos.currentVideo = action.payload?.data || action.payload;
+                    toast.success("Video Uploaded 🎥");
                 }
             })
 
@@ -89,6 +90,8 @@ const videoSlice = createSlice({
 
                 state.videos.exploreVideos = Array.from(map.values());
                 state.pagination.hasMore = hasMore;
+
+                toast.success("Videos fetched Successfully 🌚");
             })
 
 
@@ -110,6 +113,7 @@ const videoSlice = createSlice({
                 if (state.videos.currentVideo?._id === id) {
                     state.videos.currentVideo = null;
                 }
+                toast.success("Vidoe Deleted 🚮");
             })
 
             .addMatcher(isPending(uploadThunks), (state) => {
