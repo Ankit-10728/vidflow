@@ -26,7 +26,11 @@ import playlistRouter from "./routes/playlist.routes.js"
 import healthRouter from "./routes/health.routes.js"
 import dashboardRouter from "./routes/dashboard.route.js"
 
-//routes declaration
+app.get("/api/v1/test-error", (req, res, next) => {
+    const err = new Error("This is a test error");
+    err.statusCode = 400;
+    next(err);
+});
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/comment", commentRouter)
 app.use("/api/v1/video", videoRouter)
@@ -35,6 +39,7 @@ app.use("/api/v1/tweet", tweetRouter)
 app.use("/api/v1/health", healthRouter)
 app.use("/api/v1/dashboard", dashboardRouter)
 app.use("/api/v1/", likeRouter)
+
 app.get("/", (req, res) => {
     res.send("server alive");
 });
