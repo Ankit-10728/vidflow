@@ -12,7 +12,6 @@ app.use(cors({
 
 
 
-
 app.use(express.json({ limit: "16kb" }))
 app.use(express.urlencoded({ extended: true, limit: '16kb' }))
 app.use(express.static("public"))
@@ -39,6 +38,20 @@ app.use("/api/v1/", likeRouter)
 app.get("/", (req, res) => {
     res.send("server alive");
 });
+
+
+const errorHandler = (err, req, res, next) => {
+    console.error(err);
+
+    res.status(err.statusCode || 500).json({
+        success: false,
+        message: err.message || "Internal Server Error",
+    });
+};
+
+
+app.use(errorHandler);
+
 export { app }
 
 // TODO : get user tweets not working (error retrieving data from the post man)
