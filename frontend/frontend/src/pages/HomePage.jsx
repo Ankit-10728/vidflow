@@ -1,6 +1,4 @@
-// import { Login as LoginComponent } from '../components'
 import { Home as HomeCompo } from "../components"
-
 function Home() {
     return (
         <div className=''>
