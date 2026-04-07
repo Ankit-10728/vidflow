@@ -18,6 +18,7 @@ function VideoCompo() {
     const loading = useSelector((state) => state.video?.loading?.explore)
 
     useEffect(() => {
+        if (!videoId) return
         dispatch(getExploreVideos({ excludeIds: [], limit: 10 }));
     }, [dispatch, videoId])
 

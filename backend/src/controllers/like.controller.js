@@ -9,8 +9,15 @@ const like = (targetType) =>
         const { id } = req.params;
         const userId = req.user._id;
 
-        if (!id) throw new ApiError(400, "Field incomplete : like")
+        console.log(id);
+        console.log(userId);
 
+        console.log("from like com");
+
+        if (!id) throw new ApiError(400, "Field incomplete : like")
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            throw new ApiError(400, "Invalid user...")
+        }
         const existing = await Like.findOne({
             targetId: new mongoose.Types.ObjectId(id),
             targetType,
@@ -57,14 +64,13 @@ const unlike = (targetType) =>
 const getLikedItems = (targetType) => asyncHandler(async (req, res) => {
     const { id } = req?.params;
 
-    // const likedItems = await Like.find({
-    //     targetId: new mongoose.Types.ObjectId(id),
-    //     targetType
-    // })
-
+    const likedItems = await Like.find({
+        targetId: new mongoose.Types.ObjectId(id),
+        targetType
+    })
 
     return res.status(200).json(
-        new ApiResponse(200, "likedItems", `Liked ${targetType}s fetched successfully`)
+        new ApiResponse(200, likedItems, `Liked ${targetType}s fetched successfully`)
     );
 });
 

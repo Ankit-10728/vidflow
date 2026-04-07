@@ -54,7 +54,7 @@ function Home01() {
                         <span className="text-pink-300">Stream! </span>Your stories with <span className="text-pink-300"> The World</span></h1>
                     <p className="text-base text-white mt-4 md:mt-9 mb-10 md:mb-16"> Upload, share, and discover amazing videos from creators everywhere.
                         Build your channel, grow your audience, and turn ideas into impact.</p>
-                    <Link to="all-videos">
+                    <Link to="all-posts">
                         <div className="flex gap-6 sm:gap-10">
                             <button className="uppercase font-bold text-xs rounded-[40px] py-2 lg:py-4 px-4 lg:px-9 text-[#302c42]  bg-linear-to-r from-[#F8C8DC] to-[#C0B7E8]">Explore World</button><svg
                                 className="w-8 h-6 sm:w-12 sm:h-9" viewBox="0 0 46 38" fill="none" xmlns="http://www.w3.org/2000/svg">

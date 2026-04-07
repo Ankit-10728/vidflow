@@ -17,13 +17,13 @@ function ChannelInfo() {
     const loading = useSelector((state) => state.user.loading.channel)
     const naviagate = useNavigate();
     const owner = video?.owner;
-    const { id: videoId } = useParams();
+    const { slug: videoId } = useParams();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user?.user?._id)
     const channelData = useSelector(
         (state) => state.user.channelProfile[owner]
     );
-    const likescount = useSelector((state) => state?.like?.likedVideos || 3)
+    const likescount = useSelector((state) => state?.like?.likedVideos)
 
     const channelId = channelData?._id
     const userId = user?._id
@@ -37,13 +37,6 @@ function ChannelInfo() {
         if (!owner || channelData) return;
         dispatch(getUserChannelProfile(owner));
     }, [owner]);
-
-    console.log({
-        owner,
-        channelData,
-        channelId,
-        user
-    })
 
 
     return (
