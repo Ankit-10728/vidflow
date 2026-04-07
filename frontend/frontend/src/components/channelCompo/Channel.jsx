@@ -2,12 +2,27 @@ import { useState } from "react";
 import { BasicSpinner, ContentLoader, SubscribeButton } from "../../components"
 import { useSelector } from "react-redux";
 import { VideoTab, TweetTab } from "../../components"
+import { ErrorPage } from "../../pages";
 
 function Channel({ channel, videos, tweets }) {
     const [activeTab, setActiveTab] = useState("videos");
     const channelId = channel?._id;
     const userId = useSelector((state) => state?.user?.user?._id)
     const loading = useSelector((state) => state.dashboard.loading)
+
+    const error = useSelector((state) => state.dashboard.error)
+    console.log(userId);
+    console.log(" channel jsx");
+
+    if (!userId) return null
+
+
+    if (error) {
+        console.log(error);
+        return (
+            < ErrorPage />
+        )
+    }
 
     return (
         <>

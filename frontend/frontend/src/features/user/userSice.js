@@ -17,7 +17,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     user: null,
-    channelProfile: null,
+    channelProfile: {},
     playlists: [],
     watchHistory: [],
     loading: {
@@ -62,13 +62,20 @@ const isRejected = (thunks) => (action) =>
 const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        clearChannelProfile: (state) => {
+            state.channelProfile = {};
+        }
+    },
 
     extraReducers: (builder) => {
         builder
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading.auth = false;
-                state.user = action.payload.data.user;
+                console.log(action.payload.data);
+                console.log("userslice");
+
+                state.user = action?.payload?.data?.user;
                 state.isAuthenticated = true;
                 toast.success("Login successful ✅");
             })
@@ -134,8 +141,8 @@ const userSlice = createSlice({
 
             .addCase(getUserChannelProfile.fulfilled, (state, action) => {
                 state.loading.channel = false;
-                state.channelProfile = action.payload.data;
-
+                const profile = action.payload.data;
+                state.channelProfile[profile._id] = profile;
             })
 
             .addCase(getUserPlaylists.fulfilled, (state, action) => {
@@ -206,5 +213,5 @@ const userSlice = createSlice({
     }
 
 })
-
+export const { clearChannelProfile } = userSlice.actions;
 export default userSlice.reducer;

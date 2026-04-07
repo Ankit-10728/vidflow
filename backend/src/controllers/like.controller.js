@@ -62,21 +62,9 @@ const getLikedItems = (targetType) => asyncHandler(async (req, res) => {
     //     targetType
     // })
 
-    const likedItems = await Like.find({});
-
-    const allLikes = await Like.find({});
-    console.log("LIKES FROM BACKEND:", allLikes);
-
-
-    console.log("from like controller get liked item");
-    console.log(likedItems);
-    console.log(id);
-
-
-
 
     return res.status(200).json(
-        new ApiResponse(200, likedItems, `Liked ${targetType}s fetched successfully`)
+        new ApiResponse(200, "likedItems", `Liked ${targetType}s fetched successfully`)
     );
 });
 
@@ -88,8 +76,6 @@ const checkLike = (targetType) => asyncHandler(async (req, res) => {
         targetType,
         likedBy: new mongoose.Types.ObjectId(req?.user?._id)
     });
-    console.log("from like controler =======================");
-    console.log(isLiked);
 
     return res.status(200).json(
         new ApiResponse(200, isLiked ? true : false, "data fetched successfully")

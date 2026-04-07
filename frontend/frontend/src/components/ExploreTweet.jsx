@@ -20,11 +20,6 @@ function TweetExplore() {
         dispatch(getExploreTweets({ excludeIds: [] }));
     }, [dispatch]);
 
-    console.log(tweets);
-    console.log("this is to print the tweets");
-
-
-
     const handleLoadMore = () => {
         if (hasMore && !loading) {
             const excludeIds = tweets.map(t => t._id);

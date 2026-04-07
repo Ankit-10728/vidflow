@@ -10,26 +10,41 @@ import { deleteVideo } from "../../../features/video/videoApi";
 import SubscribeButton from "./SubscribeButton";
 import { getLikedVideos } from "../../../features/like/likeApi";
 import { BasicSpinner } from "../../../components"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function ChannelInfo() {
     const video = useSelector((state) => state.video.videos.currentVideo);
-    const loading = useSelector((state) => state.user.loading.channelProfile)
+    const loading = useSelector((state) => state.user.loading.channel)
     const naviagate = useNavigate();
     const owner = video?.owner;
-    const videoId = video?._id
+    const { id: videoId } = useParams();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user?.user?._id)
-    const channelData = useSelector((state) => state.user?.channelProfile)
+    const channelData = useSelector(
+        (state) => state.user.channelProfile[owner]
+    );
     const likescount = useSelector((state) => state?.like?.likedVideos || 3)
 
     const channelId = channelData?._id
+    const userId = user?._id
 
     useEffect(() => {
-        if (!owner) return;
-        dispatch(getLikedVideos(videoId))
+        if (!videoId) return;
+        dispatch(getLikedVideos(videoId));
+    }, [videoId]);
+
+    useEffect(() => {
+        if (!owner || channelData) return;
         dispatch(getUserChannelProfile(owner));
-    }, [dispatch, videoId]);
+    }, [owner]);
+
+    console.log({
+        owner,
+        channelData,
+        channelId,
+        user
+    })
+
 
     return (
         <>{!loading ?
@@ -54,7 +69,7 @@ function ChannelInfo() {
 
                         </div>
                         <SubscribeButton
-                            userId={user} channelId={channelId}
+                            userId={userId} channelId={channelId}
                         />
                     </div>
 

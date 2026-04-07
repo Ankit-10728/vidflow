@@ -11,11 +11,14 @@ function ChannelCard() {
     const channelTweets = useSelector((state) => state?.dashboard?.tweets)
     const { slug: channelId } = useParams();
 
+    if (!channelId) alert("from channel card")
+
     useEffect(() => {
+        if (!channelId) return null;
         const temp = async (channelId) => {
-            const resStats = await dispatch(getChannelStats(channelId));
-            const resVideo = await dispatch(getChannelVideos(channelId));
-            const resTweet = await dispatch(getChannelTweets(channelId));
+            await dispatch(getChannelStats(channelId));
+            await dispatch(getChannelVideos(channelId));
+            await dispatch(getChannelTweets(channelId));
         }
         temp(channelId);
     }, [channelId, dispatch])

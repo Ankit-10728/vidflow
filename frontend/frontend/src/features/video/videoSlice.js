@@ -98,7 +98,8 @@ const videoSlice = createSlice({
 
             .addCase(getVideoById.fulfilled, (state, action) => {
                 state.loading.fetchOne = false;
-                state.videos.currentVideo = action.payload?.data || action.payload;
+
+                state.videos.currentVideo = action.payload?.data;
             })
 
             .addCase(getAllVideosOfUser.fulfilled, (state, action) => {

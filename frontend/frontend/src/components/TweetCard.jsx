@@ -17,10 +17,11 @@ function TweetCard({
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const channelData = useSelector((state) => state.user?.channelProfile)
-
+    const channelData = useSelector(
+        (state) => state.user.channelProfile[owner]
+    );
     useEffect(() => {
-        if (!owner || !tweetId) return;
+        if (!owner || !tweetId || channelData) return;
         dispatch(getUserChannelProfile(owner));
     }, [dispatch, tweetId, owner]);
 

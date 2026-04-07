@@ -7,15 +7,18 @@ import { useNavigate } from "react-router-dom";
 function VideoCard({ thumbnail, title, views, time, duration, forfeed, owner, videoId }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const channelData = useSelector((state) => state.user?.channelProfile)
+    const ownerId = owner?._id
+    const channelData = useSelector(
+        (state) => state.user.channelProfile[ownerId]
+    );
     // console.log("this is from video card inside the video tab from dashboard");
     // console.log(channelData);
     // console.log(videoId);
     // console.log(typeof (videoId));
     // console.log("this is from video card inside the video tab from dashboard");
-    const ownerId = owner?._id
+
     useEffect(() => {
-        if (!owner || !videoId) return;
+        if (!ownerId || !videoId || channelData) return;
         dispatch(getUserChannelProfile(ownerId));
     }, [dispatch, videoId]);
 

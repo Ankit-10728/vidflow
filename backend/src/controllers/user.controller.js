@@ -465,6 +465,15 @@ const getWatchHistory = asyncHandler(async (req, res) => {
 const isSubscribed = asyncHandler(async (req, res) => {
     const { userId, channelId } = req.params;
 
+    console.log(userId);
+    console.log(channelId);
+
+    console.log("is subscribed 555555555555555555555555555555555555555555");
+
+    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(channelId)) {
+        throw new ApiError(400, "Invalid userId or channelId")
+    }
+
     const sub = await Subscription.findOne({
         subscriber: new mongoose.Types.ObjectId(userId),
         channel: new mongoose.Types.ObjectId(channelId)

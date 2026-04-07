@@ -6,6 +6,10 @@ import { LoadingButton } from "../../../components"
 
 function SubscribeButton({ userId, channelId }) {
 
+    console.log("from button button");
+    console.log(channelId);
+    console.log(userId);
+
     const dispatch = useDispatch()
     const loading = useSelector((state) => state.subscriber.loading)
 
