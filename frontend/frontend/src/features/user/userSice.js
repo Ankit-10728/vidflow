@@ -157,34 +157,35 @@ const userSlice = createSlice({
 
             .addMatcher(isPending(authThunks), (state) => {
                 state.loading.auth = true;
-                state.error = null;
+                state.error.auth = null;
             })
 
             .addMatcher(isPending(profileThunks), (state) => {
                 state.loading.profile = true;
-                state.error = null;
+                state.error.profile = null;
             })
 
             .addMatcher(isPending(playlistThunks), (state) => {
                 state.loading.playlists = true;
-                state.error = null;
+                state.error.playlists = null;
             })
+
 
             .addMatcher(isPending(historyThunks), (state) => {
                 state.loading.history = true;
-                state.error = null;
+                state.error.history = null;
             })
 
             .addMatcher(isPending(channelThunks), (state) => {
                 state.loading.channel = true;
-                state.error = null;
+                state.error.channel = null;
             })
 
             .addMatcher(isRejected(authThunks), (state, action) => {
                 state.loading.auth = false;
                 console.log(action.payload)
                 // state.error.auth = action?.payload?.error;
-                state.error.auth =
+                state.error.auth = action.payload ||
                     action.payload?.message ||
                     action.payload?.error ||
                     action.error?.message ||
@@ -193,6 +194,8 @@ const userSlice = createSlice({
 
             .addMatcher(isRejected(profileThunks), (state, action) => {
                 state.loading.profile = false;
+                console.log("DEBUG: Current state.error is:", state.error);
+                console.log("DEBUG: Action payload is:", action.payload);
                 state.error.profile = action?.payload?.data;
             })
 

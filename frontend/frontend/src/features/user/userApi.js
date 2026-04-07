@@ -90,6 +90,7 @@ export const getUserChannelProfile = createAsyncThunk(
     "user/getUserChannelProfile",
     async (id, thunkApi) => {
         try {
+
             if (!id) return thunkApi.rejectWithValue({ message: " user not found" })
 
             const res = await api.get(`/user/c/${id}`);
