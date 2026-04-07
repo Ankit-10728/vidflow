@@ -26,13 +26,15 @@ const initialState = {
         update: false,
         tweets: false,
         delete: false,
+        explore: false
     },
 
     error: {
         create: null,
         update: null,
         delete: null,
-        tweets: null
+        tweets: null,
+        explore: null
     },
 };
 
