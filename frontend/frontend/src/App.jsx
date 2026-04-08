@@ -10,7 +10,6 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("Fetching user...&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7");
     dispatch(fetchCurrentUser());
   }, [dispatch]);
   return (
@@ -30,7 +29,7 @@ function App() {
         <main >
           <Outlet />
         </main>
-        {/* <Footer /> */}
+
       </div>
 
     </>
