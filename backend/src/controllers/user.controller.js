@@ -11,7 +11,7 @@ import { Subscription } from "../models/subscription.models.js";
 const options = {
     httpOnly: true,
     secure: true,
-    sameSite: "Lax",
+    sameSite: "None",
 }
 
 
