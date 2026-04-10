@@ -1,0 +1,10 @@
+services:
+  - type: static_site
+    name: vidflow-frontend
+    rootDir: frontend/frontend
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
