@@ -24,9 +24,7 @@ function ChannelInfo() {
         (state) => state.user.channelProfile[owner]
     );
     const likescount = useSelector((state) => state?.like?.likedVideos)
-
     const channelId = channelData?._id
-    const userId = user?._id
 
     useEffect(() => {
         if (!videoId) return;
@@ -62,7 +60,7 @@ function ChannelInfo() {
 
                         </div>
                         <SubscribeButton
-                            userId={userId} channelId={channelId}
+                            userId={user} channelId={channelId}
                         />
                     </div>
 

@@ -14,6 +14,7 @@ function SubscribeButton({ userId, channelId }) {
     const loading = useSelector((state) => state.subscriber.loading)
 
     const [subscribed, setSubscribed] = useState(false);
+
     useEffect(() => {
         if (!userId || !channelId) return;
         const check = async () => {
