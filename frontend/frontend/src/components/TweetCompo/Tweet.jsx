@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getTweet } from "../../features/tweet/tweetApi";
 import { useState } from "react";
 import { TweetContent, TweetHeader } from "../index.js"
-import { BasicSpinner } from "../../components"
+import { ContentLoader } from "../../components"
 import { getUserChannelProfile } from "../../features/user/userApi.js";
 
 function Tweet() {
@@ -47,7 +47,7 @@ function Tweet() {
 
                     </div>
                 </div>
-                : <BasicSpinner />
+                : <ContentLoader />
             }
         </>
     );

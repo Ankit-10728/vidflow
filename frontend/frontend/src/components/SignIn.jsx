@@ -7,7 +7,9 @@ import { registerUser } from "../features/user/userApi.js"
 export default function Signin() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loading, error } = useSelector(state => state.user);
+    const loading = useSelector(state =>
+        state.user.loading.auth && !state.user.isAuthenticated
+    );
     // const [username, setUsername] = useState("");
     // const [password, setPassword] = useState("");
 

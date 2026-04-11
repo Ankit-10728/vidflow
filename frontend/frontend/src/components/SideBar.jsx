@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 function Sidebar() {
     const user = useSelector((state) => state.user?.user)
+
     return (
         <>
             <div className="fixed left-0 top-0 h-screen w-64 bg-gray-800 text-white text-lg">
@@ -16,68 +17,108 @@ function Sidebar() {
                     <div className="flex flex-col justify-between flex-1 mt-6">
                         <nav className="-mx-3 space-y-6 ">
 
-                            <div className="space-y-3 ">
-                                <label className="px-3   text-gray-500 uppercase dark:text-gray-400">content</label>
+                            {!user && (
+                                <div className="flex flex-col justify-center h-full space-y-3">
+                                    <label className="px-3 text-gray-500 uppercase dark:text-gray-400 text-center">
+                                        content
+                                    </label>
 
-                                <Link className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-                                    to="/all-posts"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth="1.5"
-                                        stroke="currentColor"
-                                        className="w-5 h-5"
+                                    <div className="mx-3 p-4 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-center">
+
+                                        <p className="text-sm">
+                                            Sign in to watch videos, explore tweets, and interact with content.
+                                        </p>
+
+                                        <div className="mt-4 space-y-2">
+                                            <Link
+                                                to="/login"
+                                                className="block w-full text-center px-4 py-2 text-white bg-[#EA454C] rounded-lg hover:bg-red-600 transition"
+                                            >
+                                                Login
+                                            </Link>
+
+                                            <Link
+                                                to="/signup"
+                                                className="block w-full text-center px-4 py-2 border border-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+                                            >
+                                                Signup
+                                            </Link>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            )}
+
+
+                            {
+
+                                user && <div className="space-y-3 ">
+                                    <label className="px-3   text-gray-500 uppercase dark:text-gray-400">content</label>
+
+                                    <Link className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+                                        to="/all-posts"
                                     >
-                                        <rect
-                                            x="3"
-                                            y="5"
-                                            width="18"
-                                            height="12"
-                                            rx="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M10 9l5 3-5 3V9z"
-                                        />
-                                    </svg>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth="1.5"
+                                            stroke="currentColor"
+                                            className="w-5 h-5"
+                                        >
+                                            <rect
+                                                x="3"
+                                                y="5"
+                                                width="18"
+                                                height="12"
+                                                rx="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M10 9l5 3-5 3V9z"
+                                            />
+                                        </svg>
 
-                                    <span className="mx-2   font-medium">Videos</span>
-                                </Link>
+                                        <span className="mx-2   font-medium">Videos</span>
+                                    </Link>
 
-                                <Link className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-                                    to="/all-tweets"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth="1.5"
-                                        stroke="currentColor"
-                                        className="w-5 h-5"
+                                    <Link className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+                                        to="/all-tweets"
                                     >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M2.25 12c0-4.142 4.03-7.5 9-7.5s9 3.358 9 7.5-4.03 7.5-9 7.5a10.5 10.5 0 01-3.75-.675L2.25 19.5l1.125-3.375A7.47 7.47 0 012.25 12z"
-                                        />
-                                    </svg>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth="1.5"
+                                            stroke="currentColor"
+                                            className="w-5 h-5"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M2.25 12c0-4.142 4.03-7.5 9-7.5s9 3.358 9 7.5-4.03 7.5-9 7.5a10.5 10.5 0 01-3.75-.675L2.25 19.5l1.125-3.375A7.47 7.47 0 012.25 12z"
+                                            />
+                                        </svg>
 
-                                    <span className="mx-2   font-medium">Tweets</span>
-                                </Link>
+                                        <span className="mx-2   font-medium">Tweets</span>
+                                    </Link>
+                                </div>
+
+                            }
+
+                            <div className="w-full flex justify-center">
+                                {user && (
+                                    <div className="flex gap-2">
+                                        <span className="font-medium">
+                                            <LogoutBtn />
+                                        </span>
+                                    </div>
+                                )}
                             </div>
 
-                            <div className="space-y-3 ">
-                                {user && <div className="flex gap-2">
-                                    <span className="  font-medium">< LogoutBtn /></span>
-                                </div>}
-
-
-                            </div>
                         </nav>
                     </div>
                 </aside>

@@ -6,7 +6,10 @@ import { useState, useEffect } from "react";
 export default function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loading, error } = useSelector(state => state.user);
+    const loading = useSelector(state =>
+        state.user.loading.auth && !state.user.isAuthenticated
+    );
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
