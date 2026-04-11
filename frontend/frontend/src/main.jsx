@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { store } from './app/store.js'
 import App from './App.jsx'
 import { Provider } from 'react-redux'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createHashRouter, RouterProvider } from 'react-router-dom'
 import './index.css';
 import { Protected, Tweet } from "./components"
 import TweetLayout from './layouts/tweetLayout.jsx'
@@ -24,7 +24,7 @@ import {
 } from "./pages"
 
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <App />,
