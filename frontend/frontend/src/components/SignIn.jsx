@@ -165,7 +165,7 @@ export default function Signin() {
                             <button
                                 onClick={handleSubmit}
                                 className="my-5 w-85 rounded-xl bg-[#EA454C] py-2 text-white" >
-                                Sign in
+                                {loading ? "Processing..." : "Sign Up"}
                             </button>
                         </div>
 

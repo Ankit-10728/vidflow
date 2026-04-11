@@ -25,7 +25,7 @@ function LoaderProgress() {
                     stroke="currentColor"
                     strokeWidth="8"
                     fill="transparent"
-                    className="text-gray-200 dark:text-zinc-800"
+                    className="text-gray-200 "
                 />
                 <circle
                     cx="50"
@@ -40,7 +40,7 @@ function LoaderProgress() {
                 />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-900 dark:text-white">
+                <span className="text-sm font-medium text-gray-900 ">
                     {progress}%
                 </span>
             </div>
