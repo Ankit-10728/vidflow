@@ -76,7 +76,7 @@ const deleteVideo = asyncHandler(async (req, res) => {
     const video = await Video.findById(videoId);
     if (!video) throw new ApiError(404, "Video not found");
 
-    if (video.owner === req.user._id) throw new ApiError(400, "unauthoriased request");
+    if (video.owner !== req.user._id) throw new ApiError(400, "unauthoriased request");
     // console.log(video.videoFile.public_id)
     const public_id = video.videoFile.public_id
     if (!public_id) throw new ApiError(404, "video does not exist");
@@ -117,7 +117,7 @@ const getVideo = asyncHandler(async (req, res) => {
 const getAllVideosOfUser = asyncHandler(async (req, res) => {
     const { userId } = req.params
     if (!userId) throw new ApiError(400, "user does not exist")
-    const videos = await Video.find({ owner: userId }).sort({ createdAt: 1 })
+    const videos = await Video.find({ owner: userId }).sort({ createdAt: -1 })
 
     if (!videos) throw new ApiError(404, "videos not found")
 

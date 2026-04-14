@@ -11,8 +11,6 @@ app.use(cors({
 }))
 
 
-
-
 app.use(express.json({ limit: "16kb" }))
 app.use(express.urlencoded({ extended: true, limit: '16kb' }))
 app.use(express.static("public"))
@@ -27,11 +25,6 @@ import playlistRouter from "./routes/playlist.routes.js"
 import healthRouter from "./routes/health.routes.js"
 import dashboardRouter from "./routes/dashboard.route.js"
 
-app.get("/api/v1/test-error", (req, res, next) => {
-    const err = new Error("This is a test error");
-    err.statusCode = 400;
-    next(err);
-});
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/comment", commentRouter)
 app.use("/api/v1/video", videoRouter)
@@ -47,7 +40,7 @@ app.get("/", (req, res) => {
 
 
 const errorHandler = (err, req, res, next) => {
-    console.error(err);
+    // console.error(err);
 
     res.status(err.statusCode || 500).json({
         success: false,
@@ -59,6 +52,3 @@ const errorHandler = (err, req, res, next) => {
 app.use(errorHandler);
 
 export { app }
-
-// TODO : get user tweets not working (error retrieving data from the post man)
-// TODO : need to set up get user video through video id

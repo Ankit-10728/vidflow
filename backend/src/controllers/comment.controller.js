@@ -19,7 +19,7 @@ const createComment = (targetType) => asyncHandler(async (req, res) => {
         owner: new mongoose.Types.ObjectId(userId)
     })
 
-    if (commentCheck) console.log("comment allready exist printing");
+    if (commentCheck) console.log("comment allready exist ");
 
     if (commentCheck) throw new ApiError(400, "Comment allready exist")
 

@@ -55,12 +55,12 @@ const registerUser = asyncHandler(async (req, res) => {
         $or: [{ email }, { username }]
     })
 
-    console.log("before uploading to cloudinary");
+    // console.log("before uploading to cloudinary");
 
     const avatarLocalPath = req.files?.avatar[0]?.path
     const coverImageLocalPath = req.files?.coverImage[0]?.path
     if (!avatarLocalPath) throw new ApiError(400, "avatar is required...")
-    console.log(avatarLocalPath);
+    // console.log(avatarLocalPath);
 
     if (existedUser) {
         fs.unlinkSync(avatarLocalPath)
@@ -74,7 +74,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     const coverImage = await uploadOnCloudinary(coverImageLocalPath, "coverImage")
     if (!coverImage) console.log("not uploaded");
-    console.log("After upload to cloudinary")
+    console.log("After upload on cloudinary")
     const user = await User.create({
         email,
         username: username?.toLowerCase(),
@@ -414,46 +414,16 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
 })
 
 const getWatchHistory = asyncHandler(async (req, res) => {
-    const user = await User.aggregate([
-        {
-            $match: {
-                _id: new mongoose.Types.ObjectId(req.user._id)
+    const user = await User.findById(req.user._id)
+        .populate({
+            path: "watchHistory",
+            populate: {
+                path: "owner",
+                select: "avatar fullname username"
             }
-        },
-        {
-            $lookup: {
-                from: "videos",
-                localField: "watchHistory",
-                foreignField: "_id",
-                as: "watchHistory",
-                pipeline: [{
-                    $lookup: {
-                        from: "users",
-                        localField: "owner",
-                        foreignField: "_id",
-                        as: "owner",
-                        pipeline: [
-                            {
-                                $project: {
-                                    avatar: 1,
-                                    fullname: 1,
-                                    username: 1,
-                                }
-                            }
-                        ]
-                    }
-                },
-                {
-                    $addFields: {
-                        owner: {
-                            $first: '$owner'
-                        }
-                    }
-                }
-                ]
-            }
-        }
-    ])
+        });
+
+    if (!user) throw new ApiError(404, "Not found")
 
     return res
         .status(200)
